@@ -1,49 +1,177 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd"> 
-<html> 
-  <head> 
-    <title> 
-    Trustworthy AI
-    </title> 
-    <meta name="keywords" content="robert pless, computer vision course notes"> 
-     <link rel="STYLESHEET" href="../mystyle.css" type="text/css">   
-  </head> 
-  <body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trustworthy AI</title>
+    <meta name="keywords" content="robert pless, computer vision course notes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, a {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<h3>CSCI 6907 / EMSE 6992</h3>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
 
-<p>Classroom: SEH B1270.  This is one of the lecture halls in the basement of the SEH building (if you go in the building and go down the floor on the stairs, turn right at the bottom of the stairs).  
- </p> 
-<p>Meets Mondays 3:30 -- 6:00.  It will often be the case that 3:30 -- 4:30 will be an invited speaker, and the rest of the class time will be filled by an in-class exercise.</p>
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #35424a;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
 
-<p>Remote access.  This course is intended to be in person, but there is interest in the topic broadly beyond those in the course itself, and most of the guest lectures will be public.  If you are a student and for whatever reason can't attend, you can use this link.  Many classes will have in class exercises that are an important part of the learning; so this is not an invitation to treat this as a remote course.
-<center><a href=https://us02web.zoom.us/j/83001630549?pwd=jB0YujekDxULfvcXva8DX3hrVyjlOI.1>Zoom Link</a>, with this link you shouldn't need a password, but if you do, it is: 12481632
-(to help remember, this is the sequence of numbers by doubling: 1, 2, 4, 8, 16, 32).
-</center>
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
 
+        header p {
+            font-size: 1.1em;
+        }
 
-<h5>Lecture Schedule:</h5>
-<ol>
-  <li><strong>Monday January 13, 2025:</strong> Introduction to Trust & AI by Robert Pless</li>
-  <li><strong>Monday January 20, 2025:</strong> <em>Holiday</em></li>
-  <li><strong>Monday January 27, 2025:</strong> Model Risk Management by Patrick Hall</li>
-  <li><strong>Monday February 3, 2025:</strong> Class is replaced by: <a href="https://trails.gwu.edu/trailscon-2025">TRAILS Conference</a></li>
-  <li><strong>Monday February 10, 2025:</strong> Natural Language Processing & Language Models by Rebecca Hwa</li>
-  <li><strong>Monday February 17, 2025:</strong> <em>Holiday</em></li>
-  <li><strong>Monday February 24, 2025:</strong> Mechanisms of Human Oversight in Training AI Systems by Shi Feng</li>
-  <li><strong>Monday March 3, 2025:</strong> Humanistic Views on Trust, Creativity, and AI by Alexa Joubin</li>
-  <li><strong>Monday March 10, 2025:</strong> <em>Spring Break</em></li>
-  <li><strong>Monday March 17, 2025:</strong> Trust Models and Misinformation in Social Media by David Broniatowski</li>
-  <li><strong>Monday March 24, 2025:</strong> Global AI Governance by Susan Aaronson</li>
-  <li><strong>Monday March 31, 2025:</strong> Safety and Systems Assurance in Deployed Systems by Peng Wei</li>
-  <li><strong>Monday April 7, 2025:</strong> <em>TBA</em></li>
-  <li><strong>Monday April 14, 2025:</strong> <em>TBA</em></li>
-  <li><strong>Monday April 21, 2025:</strong> <em>TBA</em></li>
-  <li><strong>Monday April 28, 2025:</strong> <em>TBA</em></li>
-  <li><strong>"Designated" Monday April 30, 2025:</strong> <em>TBA</em></li>
-</ol>
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .class-info, .schedule, .syllabus {
+            margin-bottom: 30px;
+        }
 
-<h5>Course Syllabus (coming very soon).</h5>
-</body>
-</html>
+        .class-info h2, .schedule h2, .syllabus h2 {
+            margin-bottom: 15px;
+            color: #35424a;
+            border-bottom: 2px solid #35424a;
+            padding-bottom: 5px;
+        }
+
+        .class-info p, .schedule ol, .syllabus p {
+            margin-bottom: 10px;
+        }
+
+        .schedule ol {
+            padding-left: 20px;
+        }
+
+        .schedule li {
+            margin-bottom: 10px;
+        }
+
+        .schedule a {
+            color: #35424a;
+            text-decoration: none;
+        }
+
+        .schedule a:hover {
+            text-decoration: underline;
+        }
+
+        .zoom-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .zoom-link a {
+            display: inline-block;
+            background-color: #35424a;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .zoom-link a:hover {
+            background-color: #1f2a30;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .zoom-link a {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Trustworthy AI</h1>
+        <p>CSCI 6907 / EMSE 6992</p>
+    </header>
+
+    <div class="container">
+        <section class="class-info">
+            <h2>Class Information</h2>
+            <p><strong>Classroom:</strong> SEH B1270. This is one of the lecture halls in the basement of the SEH building. If you go into the building and descend the stairs, turn right at the bottom.</p>
+            <p><strong>Meeting Time:</strong> Mondays 3:30 PM – 6:00 PM. Typically, 3:30 PM – 4:30 PM will feature an invited speaker, followed by an in-class exercise.</p>
+            <p><strong>Remote Access:</strong> This course is intended to be in-person, but most guest lectures are public. If you can't attend, use the Zoom link below. Note that in-class exercises are essential for learning, so this is not a remote course.</p>
+            <div class="zoom-link">
+                <a href="https://us02web.zoom.us/j/83001630549?pwd=jB0YujekDxULfvcXva8DX3hrVyjlOI.1" target="_blank">Join Zoom Meeting</a>
+                <p style="margin-top: 10px; font-size: 0.9em;">
+                    If prompted for a password, use: <strong>12481632</strong> (Sequence: 1, 2, 4, 8, 16, 32)
+                </p>
+            </div>
+        </section>
+
+        <section class="schedule">
+            <h2>Lecture Schedule</h2>
+            <ol>
+                <li><strong>Monday January 13, 2025:</strong> Introduction to Trust & AI by Robert Pless</li>
+                <li><strong>Monday January 20, 2025:</strong> <em>Holiday</em></li>
+                <li><strong>Monday January 27, 2025:</strong> Model Risk Management by Patrick Hall</li>
+                <li><strong>Monday February 3, 2025:</strong> Class replaced by: <a href="https://trails.gwu.edu/trailscon-2025" target="_blank">TRAILS Conference</a></li>
+                <li><strong>Monday February 10, 2025:</strong> Natural Language Processing & Language Models by Rebecca Hwa</li>
+                <li><strong>Monday February 17, 2025:</strong> <em>Holiday</em></li>
+                <li><strong>Monday February 24, 2025:</strong> Mechanisms of Human Oversight in Training AI Systems by Shi Feng</li>
+                <li><strong>Monday March 3, 2025:</strong> Humanistic Views on Trust, Creativity, and AI by Alexa Joubin</li>
+                <li><strong>Monday March 10, 2025:</strong> <em>Spring Break</em></li>
+                <li><strong>Monday March 17, 2025:</strong> Trust Models and Misinformation in Social Media by David Broniatowski</li>
+                <li><strong>Monday March 24, 2025:</strong> Global AI Governance by Susan Aaronson</li>
+                <li><strong>Monday March 31, 2025:</strong> Safety and Systems Assurance in Deployed Systems by Peng Wei</li>
+                <li><strong>Monday April 7, 2025:</strong> <em>TBA</em></li>
+                <li><strong>Monday April 14, 2025:</strong> <em>TBA</em></li>
+                <li><strong>Monday April 21, 2025:</strong> <em>TBA</em></li>
+                <li><strong>Monday April 28, 2025:</strong> <em>TBA</em></li>
+                <li><strong>Designated Monday April 30, 2025:</strong> <em>TBA</em></li>
+            </ol>
+        </section>
+
+        <section class="syllabus">
+            <h2>Course Syllabus</h2>
+            <p>Coming very soon.</p>
+        </section>
+    </div>
+
+    <footer>
+        &copy; 2025 Trustworthy AI Course. All rights reserved.
+    </footer>
+
 </body>
 </html>
