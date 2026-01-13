@@ -1,3 +1,7 @@
+---
+layout: default
+title: Project 1
+---
 # Project 1
 Due: Wedneday, Feb. 5, 2025, Noon, eastern time.
 
