@@ -3,7 +3,7 @@ layout: default
 title: Project 1
 ---
 # Project 1
-Due: Friday, Jan. 23, 2025, Noon, eastern time.
+Due: Wednesday, Jan. 28, 2026, Noon, eastern time.
 
 # Objective:
 Critically explore, analyze and understand the risks associated with deploying AI models like ChatGPT in a specific problem domain. The project has the specific focus of getting GPT (or similar) models to generate recommendations that would have very negative potential outcomes, with subsuduary goals of thinking about mitigation strategies and learning to connect a specific problem domain to ways that GPT could be integrated with that proble domain.
