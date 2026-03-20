@@ -92,7 +92,9 @@ Turn in a blog post (approx. **3 screenfuls**) discussing the following:
 3. **So What?:** Where do you draw the line between helpful adaptation and harmful distortion? What would a "fair" LLM look like for this domain? Propose at least one concrete mitigation or design principle.
 
 ### Logistics
+* **Submission:** Please submit your link or PDF via the form below.
 
+> **[Submit Your Project Here (Google Form)](https://docs.google.com/forms/d/e/1FAIpQLSeEvdpKrCRG17KMY4NBuYea32rZXUK3kZVmWTw_WJ7BCXLVIg/viewform?usp=sharing)**
 ---
 
 ##  Ideas/Tips
