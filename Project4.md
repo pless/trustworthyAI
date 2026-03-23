@@ -6,6 +6,8 @@ title: Project 4
 
 Due: Monday, April 6, 2026, Noon, Eastern time.
 
+This is an individual project.
+
 ## Objective
 
 This assignment provides an opportunity to explore a selected dimension of AI to try to do something (instead of just highlight places where things get broken). I've given five options designed to investigate AI capabilities, trustworthiness, ethical implications, or creative potential in distinct contexts; you are 100% welcome to go in a different direction of similar scope.
