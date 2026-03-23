@@ -1,6 +1,6 @@
-# Assignment 3: Using AI in Ways That Matter to You
+# Assignment 4: Using AI in Ways That Matter to You
 
-Due: Monday, March 31, 2025, Noon, Eastern time.
+Due: Monday, April 6, 2026, Noon, Eastern time.
 
 ## Objective
 
