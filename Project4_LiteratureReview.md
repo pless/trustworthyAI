@@ -2,20 +2,20 @@
 
 In the Trustworthy AI domain, we often say "trust is a construct," which means: let's start from the idea that trust is something we humans make up and agree on—it's not something that just appears on its own. Over the course of this semester, we've talked about different ways that people are trying to understand AI systems, understand what it would mean to trust AI systems, and perhaps understand how to build systems that can be trusted. These discussions remain incomplete, and what "trust" is as a construct related to AI is both unclear and changing as the technology (and our relationship to it) changes.
 
-This assignment focuses on understanding what a construct is and why there is so much confusion about what things mean. For **Part I**, you will identify and digest 10 readings that center on trust (or trust by another name) and for each reading chart the move from fuzzy concept to operationalization. For **Part II**, you will catalogue the various names trust goes by. For **Part III**, you will construct a schema that represents the construct most relevant to your problem domain or area of interest. Finally, in **Part IV**, you will write a bridging reflection that connects the pieces.
+This assignment focuses on understanding what a construct is and why there is so much confusion about what things mean. For **Part I**, you will identify and digest 6 readings that center on trust (or trust by another name) and for each reading chart the move from fuzzy concept to operationalization. For **Part II**, you will catalogue the various names trust goes by. For **Part III**, you will construct a schema that represents the construct most relevant to your problem domain or area of interest. Finally, in **Part IV**, you will write a bridging reflection that connects the pieces.
 
 ---
 
 ## Acceptable Sources
 
-Your 10 readings should be drawn from the following source types:
+Your 6 readings should be drawn from the following source types:
 
 - **Peer-reviewed publications**: journal articles, conference papers (e.g., FAccT, AIES, NeurIPS, CHI, CSCW, IEEE S&P)
 - **Policy and standards documents**: NIST AI RMF, EU AI Act supporting documents, ISO/IEC standards
 - **White papers and technical reports**: from research labs, think tanks, or government agencies (e.g., RAND, AI Now, Partnership on AI, GAO)
 - **Book chapters**: from edited volumes on AI ethics, STS, or related fields
 
-Blog posts, news articles, and opinion pieces do not count toward the 10, though you may reference them in your discussion.
+Blog posts, news articles, and opinion pieces do not count toward the 6, though you may reference them in your discussion.
 
 ---
 
