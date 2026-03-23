@@ -1,4 +1,4 @@
-# Trustworthy AI Final Project: Report Option
+# Trustworthy AI Project 4: Literature Review
 
 In the Trustworthy AI domain, we often say "trust is a construct," which means: let's start from the idea that trust is something we humans make up and agree on—it's not something that just appears on its own. Over the course of this semester, we've talked about different ways that people are trying to understand AI systems, understand what it would mean to trust AI systems, and perhaps understand how to build systems that can be trusted. These discussions remain incomplete, and what "trust" is as a construct related to AI is both unclear and changing as the technology (and our relationship to it) changes.
 
