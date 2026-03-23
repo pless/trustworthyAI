@@ -43,13 +43,10 @@ Objective: Critically evaluate GPT's robustness in applying common-sense reasoni
 - Document GPT responses, highlighting correct and incorrect reasoning.
 - Discuss specific reasoning failures and reflect on their broader implications for deploying AI responsibly in real-world applications.
 
-### 5. AI-Generated News and Misinformation
+### 5. Structured Literature Review (mandated for DTAIS Fellow)
 
-Objective: Investigate GPT's capabilities in generating realistic misinformation or detecting fake news, evaluating impacts and practical strategies for detection and prevention.
+https://github.com/pless/trustworthyAI/blob/main/Project4_LiteratureReview.md
 
-- Design prompts that request GPT to generate realistic fake news or detect misinformation within provided texts.
-- Evaluate how convincing or detectable the misinformation is.
-- Propose and critically assess practical approaches or guidelines for effectively identifying or preventing AI-generated misinformation.
 
 ## Write-Up
 
