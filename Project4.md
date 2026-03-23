@@ -1,3 +1,7 @@
+---
+layout: default
+title: Project 4
+---
 # Assignment 4: Using AI in Ways That Matter to You
 
 Due: Monday, April 6, 2026, Noon, Eastern time.
