@@ -4,7 +4,7 @@ title: Project 4
 ---
 # Assignment 4: Using AI in Ways That Matter to You
 
-Due: Monday, April 6, 2026, Noon, Eastern time.
+Due: Friday, April 10, 2026, Noon, Eastern time.
 
 This is an individual project.
 
@@ -51,7 +51,7 @@ Objective: Critically evaluate GPT's robustness in applying common-sense reasoni
 
 ### 5. Structured Literature Review (mandated for DTAIS Fellow)
 
-https://github.com/pless/trustworthyAI/blob/main/Project4_LiteratureReview.md
+https://github.com/pless/trustworthyAI/blob/main/Project4_LiteratureReview.md (updated 4/2/2026)
 
 
 ## Write-Up
