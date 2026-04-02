@@ -67,4 +67,4 @@ You may work in groups of up to 3 students. One group member must publish your w
 
 Submit your blog or PDF through the following form:
 
-Assignment Submission Form
+[Submission Link](https://docs.google.com/forms/d/e/1FAIpQLSeEvdpKrCRG17KMY4NBuYea32rZXUK3kZVmWTw_WJ7BCXLVIg/viewform?usp=sharing)
