@@ -18,89 +18,48 @@ Your 6 readings should be drawn from the following source types:
 Blog posts, news articles, and opinion pieces do not count toward the 6, though you may reference them in your discussion.
 
 ---
+# Trustworthy AI Lit Review: Quick Start Guide
 
-## Part I – From Fuzzy Concept to Operationalization
+Attached are the slides for the Trustworthy AI literature review mini-assignment. For those who want to get started early, here's a step-by-step walkthrough.
 
-Constructs or fuzzy concepts are key to theorization—they are the "what" of a theory—but they are not directly measurable without first having conceptualization. A conceptualization pins down a fuzzy concept into something precise that can then be measured or counted (operationalization). One example is listed below; the related reading is in the DTAIS Summer Incubator 2025 folder.
+**Key concept to internalize first:** "Trustworthy AI" is a construct, an abstract thing we agree exists but can't measure directly. Different researchers conceptualize it differently and operationalize it differently. Your job is to map that landscape for your chosen context.
 
-| # | Paper/Measure (author/s, date) | Fuzzy Concept | Conceptualization | Operationalization |
-|---|-------------------------------|---------------|-------------------|--------------------|
-| *example (topic is complexity)* | | Complexity is the thing that makes software hard to test and maintain | Graph-theoretic measure of paths through a program | |
-| 1. | | | | |
-| 2. | | | | |
-| 3. | | | | |
-| 4. | | | | |
-| 5. | | | | |
-| 6. | | | | |
-| 7. | | | | |
-| 8. | | | | |
-| 9. | | | | |
-| 10. | | | | |
+## 1. Pick your context
 
-### Part I Reflection
+Choose a specific AI application domain you care about. Be specific. "AI for healthcare" is too broad. "AI-assisted medical diagnosis" or "LLMs for legal document review" is better.
 
-After completing the table, write a short summary (roughly one page) addressing:
+As a concrete example: imagine a relief organization that uses a VLM system to value donated goods (boxes of diapers, boots, dish soap). The system photographs each donation box, segments the objects, and assigns a price to each item. "Trust" in that system means very different things depending on where you stand. At the algorithm level, trust is about accuracy (did the VLM correctly identify 24 diapers vs. a box of 24 diapers? Is the price lookup current?). At the operator level, it's about appropriate reliance (does the volunteer just accept the number, or do they sanity-check?). At the organization level, it's about defensibility (can you stand behind these valuations in a tax audit?). At the societal level, it's about legitimacy (will the IRS accept this methodology?). Same word, completely different conceptualizations and operationalizations at each layer.
 
-- Looking across the readings you selected, do they agree with each other about what they are trying to measure?
-- Is there agreement (across the measures) about what *should* be measured?
-- Are the operationalizations doing a good job at measuring that? Where do they fall short?
+## 2. Find 10 journal papers
 
----
+Find 10 journal papers that discuss trust/trustworthiness of AI in your context (or closely related ones). Prioritize peer-reviewed work.
 
-## Part II – Constructs of Trust
+## 3. Extract fuzzy concept, conceptualization, and operationalization (Part I)
 
-List constructs (trust by other names) you have come across in your readings or interactions.
+For each paper, extract three things and put them in the table in the deliverable template:
 
----
+- **Fuzzy concept:** what do they think trust is, in plain language? What problem does lack of trust cause?
+- **Conceptualization:** how do they make it precise? What dimensions or components do they define?
+- **Operationalization:** how do they propose to measure it? (Surveys? Behavioral proxies? System metrics like explanation fidelity?)
 
-## Part III – Create Your Own Trust Schema
+Using the donation example, one row might look like: Fuzzy concept = "the system gives us numbers we can defend to the IRS." Conceptualization = "consistency of valuations across sites, operators, and time." Operationalization = "coefficient of variation in per-item valuations across 5 sites over 30 days."
 
-A trust schema is a visualization of the contexts and relationships where trust (or trust by another name) matters to your area of interest. Identify where trust is *located*—between which actors, institutions, or system components—and what is at stake in each relationship.
+## 4. Look for "trust by other names" (Part II)
 
-In the example below, the arrow indicates that trust is located or is critical between the user/operator and the system containing the algorithm. This is where your attention will be focused. Use shapes and arrows of your choosing; consider adding labels or a brief explanation to make your schema legible.
+Include this as a section in your document. Other papers in your domain may not use the word "trust" but discuss closely related constructs: reliability, confidence, transparency, accountability, fairness, interpretability, etc. Identify these and note how they relate to trust. In the donation system, for instance, you might find papers on "valuation accuracy" or "appraisal consistency" that never mention trust but are clearly operationalizing a facet of it.
 
-### A Worked Example: Trust in *Frozen*
+## 5. Build your trust schema (Part III)
 
-As I've been talking to some students about this potential assignment, I've found that people with a mostly CS background struggle to understand what is expected in these schema. To help, I'm sharing below a version of a "trust schema" in the world of *Frozen*, which is basically like AI—built with good intentions but prone to accidentally freezing everyone out.[^1]
+Using the system boundary diagram from the slides (algorithm, system, user/operator, operating context, society), map where each construct and operationalization lives. Trust at the algorithm level (e.g., segmentation IoU) is very different from trust at the societal level (e.g., regulatory compliance).
 
-[^1]: Just suggested by ChatGPT.
-
-In this extended analogy, we focus on a schema for interpersonal trust in Disney's *Frozen*.
-
-**Step 1: Identify Key Actors and Relationships**
-
-Here's a simplified schema that shows how trust might operate in *Frozen*:
-
-- **Anna → Elsa**: Trust is based on sibling bonds but is strained by fear and secrecy.
-- **Elsa → Anna**: Trust wavers due to Elsa's desire to protect Anna by distancing herself.
-- **Anna → Hans**: Initially high trust (romantic excitement), then betrayal (false identity).
-- **Anna → Kristoff**: Starts low, grows as actions prove reliability and care.
-- **Olaf → Everyone**: Unconditional trust, symbolizes innocence and optimism.
-
-**Step 2: Represent the Construct as a Schema**
-
-You could draw a diagram showing:
-
-- Characters as nodes
-- Arrows labeled with trust level and basis (e.g., "earned through shared adventure," "broken by betrayal," "based on family bond")
-- Optional: Color-code arrows (e.g., green for trust, red for broken trust, gray for uncertain trust)
-
-**Step 3: Reflect on the Construct**
-
-In this world:
-
-- Trust isn't just a feeling; it's based on roles (sibling, stranger, hero), history of interactions, and expectations of behavior.
-- Trust can change quickly with new information.
-- What counts as trustworthy varies by character and context (e.g., Elsa isolates herself to be trustworthy, but it feels untrustworthy to Anna).
-
-Please note that this is a somewhat strained analogy. I don't expect snowmen to be key stakeholders in your trustworthy AI schema; instead you might have end-users, data-creators, data-owners, AI companies, governments, domain practitioners, etc.
-
----
-
-## Part IV – Bridging Reflection
+## 6. Reflection
 
 Write a short reflection (roughly half a page) connecting Parts I–III:
 
-- Of the 10 operationalizations you charted in Part I, which one is most relevant to the trust relationship you identified in your schema (Part III)? Why?
+- Of the 6 operationalizations you charted in Part I, which one is most relevant to the trust relationship you identified in your schema (Part III)? Why?
 - Which operationalization is the *least* appropriate fit? What does it miss about your domain?
 - If none of the operationalizations from Part I fully capture the trust relationship in your schema, describe what an ideal operationalization would need to account for.
+
+## 6. Turn in your deliverable
+
+Turn in your deliverable as a **PDF or a blog post**.
