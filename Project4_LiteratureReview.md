@@ -30,9 +30,9 @@ Choose a specific AI application domain you care about. Be specific. "AI for hea
 
 As a concrete example: imagine a relief organization that uses a VLM system to value donated goods (boxes of diapers, boots, dish soap). The system photographs each donation box, segments the objects, and assigns a price to each item. "Trust" in that system means very different things depending on where you stand. At the algorithm level, trust is about accuracy (did the VLM correctly identify 24 diapers vs. a box of 24 diapers? Is the price lookup current?). At the operator level, it's about appropriate reliance (does the volunteer just accept the number, or do they sanity-check?). At the organization level, it's about defensibility (can you stand behind these valuations in a tax audit?). At the societal level, it's about legitimacy (will the IRS accept this methodology?). Same word, completely different conceptualizations and operationalizations at each layer.
 
-## 2. Find 10 journal papers
+## 2. Find 6 journal papers
 
-Find 10 journal papers that discuss trust/trustworthiness of AI in your context (or closely related ones). Prioritize peer-reviewed work.
+Find 6 journal papers that discuss trust/trustworthiness of AI in your context (or closely related ones). Prioritize peer-reviewed work.
 
 ## 3. Extract fuzzy concept, conceptualization, and operationalization (Part I)
 
