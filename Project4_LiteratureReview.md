@@ -18,11 +18,6 @@ Your 6 readings should be drawn from the following source types:
 Blog posts, news articles, and opinion pieces do not count toward the 6, though you may reference them in your discussion.
 
 ---
-# Trustworthy AI Lit Review: Quick Start Guide
-
-Attached are the slides for the Trustworthy AI literature review mini-assignment. For those who want to get started early, here's a step-by-step walkthrough.
-
-**Key concept to internalize first:** "Trustworthy AI" is a construct, an abstract thing we agree exists but can't measure directly. Different researchers conceptualize it differently and operationalize it differently. Your job is to map that landscape for your chosen context.
 
 ## 1. Pick your context
 
