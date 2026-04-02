@@ -57,4 +57,4 @@ Write a short reflection (roughly half a page) connecting Parts I–III:
 
 ## 6. Turn in your deliverable
 
-Turn in your deliverable as a **PDF or a blog post**.
+Turn in your deliverable as a **PDF or a blog post** here: [Submission Link](https://docs.google.com/forms/d/e/1FAIpQLSeEvdpKrCRG17KMY4NBuYea32rZXUK3kZVmWTw_WJ7BCXLVIg/viewform?usp=sharing)
