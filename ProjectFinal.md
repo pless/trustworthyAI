@@ -2,13 +2,13 @@
 layout: default
 title: Project 1
 ---
-##Trustworthy AI Final Project
+## Trustworthy AI Final Project
  
 The final is to write up a project in the scope and format of the [9th AAAI Conference on AI, Ethics, and Society](https://www.aies-conference.com/2026/call-for-papers/). You may, but do not have to, write it in exactly the right format to submit to this conference.
  
 ## Team
  
-You can work in groups of up to 3 students. One of you must make this as a blog post. You can make a blog for yourself and post pages from it via the GWU blog service (https://blogs.gwu.edu/), or use public services like GitHub, WordPress, etc.
+You can work in groups of up to 3 students.  Only one person needs to submit.
  
 Submit here: [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSeEvdpKrCRG17KMY4NBuYea32rZXUK3kZVmWTw_WJ7BCXLVIg/viewform?usp=sharing)
  
