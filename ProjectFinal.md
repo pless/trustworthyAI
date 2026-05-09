@@ -15,7 +15,7 @@ Submit here: [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSeEvdpKrCRG1
 ## Deadlines
  
 - **Initial Project Deadline:** May 4 at noon. Projects submitted then will be graded, and final projects for the class will be calculated so you know what will be submitted assuming nothing additional is turned in. Guidance will be offered for how to improve a subsequent submission.
-- **Final Final Project Deadline:** May 11 at noon.
+- **Final Final Project Deadline:** May 13 at noon.  (this is extended from previous deadline of May 11 at noon.)
 ---
  
 The following outlines one way to think about and develop such a project, to give direction if helpful and share the scope. Many other structures are possible, and if you have something in mind I encourage you to explore that. First I will describe a more technical version; you can also choose the more analytical version described below.
