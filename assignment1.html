@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 1, Trustworthy AI, Fall 2026</title>
+    <meta name="keywords" content="robert pless, trustworthy AI course notes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #35424a;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            color: #35424a;
+            border-bottom: 2px solid #35424a;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .container section {
+            margin-bottom: 30px;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+        }
+
+        .container ol, .container ul {
+            padding-left: 20px;
+        }
+
+        .container li {
+            margin-bottom: 10px;
+        }
+
+        .container a {
+            color: #35424a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Assignment 1: Explore an Agent in a Domain You Know</h1>
+        <p>Trustworthy AI, Fall 2026 &mdash; CSCI 6510 / EMSE 6992</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <p><strong>Due: Monday, September 14, 2026, 12:00 noon.</strong></p>
+
+            <p>Modern AI systems are increasingly <em>agentic</em>: instead of answering a question, they take actions &mdash; searching, fetching, checking, comparing &mdash; and decide for themselves what to do next. In this project you will explore what happens when you hand an agent a real task from a domain you know well.</p>
+
+            <p>Choose a small question from your own field, work, or life that an agent can answer by <em>doing something</em> rather than by writing about it: checking whether sources in a brief resolve, finding appointment availability across clinic websites, measuring how often a public data feed updates, tracing a quote or image to its original source. The task should be one where you know enough to judge whether the agent's answer is right &mdash; your domain expertise is the point. This project is approachable from social, legal, scientific, or computational perspectives; the agent writes any code involved, and no programming background is required.</p>
+
+            <p>Run the task with an agentic tool of your choice. Then write a short blog post (roughly 800&ndash;1200 words) that includes:</p>
+
+            <ol>
+                <li><strong>The domain.</strong> What corner of the world is this, why does it matter to you, and what do you know about it that the AI doesn't?</li>
+                <li><strong>The task.</strong> The exact prompt you gave the agent, verbatim, and what a correct answer would look like.</li>
+                <li><strong>What the agent did.</strong> Walk through the steps it actually took, with a screenshot or transcript excerpt or two. Where did it surprise you?</li>
+                <li><strong>How you know whether it's right.</strong> Did the agent check its own answer? Was that check real? Could you verify the answer independently &mdash; and did you?</li>
+                <li><strong>Would you delegate this again?</strong> If the agent ran this task next week without you watching, what could go wrong, and what would need to be true for you to trust it?</li>
+            </ol>
+
+            <p>An agent that fails at your task, examined carefully, makes just as good a blog post as one that succeeds. The interesting question is never only "did it work" but "how would anyone know."</p>
+
+            <p>The task should need under about 30 minutes of agent time.</p>
+        </section>
+
+        <section>
+            <h2>Getting agent access for free</h2>
+
+            <p>You do not need a paid account for this project. Options, roughly in order of ease:</p>
+
+            <ul>
+                <li><strong>ChatGPT free tier</strong> (<a href="https://chatgpt.com">chatgpt.com</a>) &mdash; every free account includes 50 agent (Codex) messages per day in the web app. This is the simplest route and requires no setup; budget your messages.</li>
+                <li><strong>GitHub Copilot Student</strong> (<a href="https://education.github.com">education.github.com</a>) &mdash; verify with your GWU email to get the free student plan, which includes agent mode with a monthly credit allowance. Verification takes hours to a few days, so start early; a few long agent sessions can exhaust the monthly credits, so rehearse your task in chat before running it agentically. The no-verification <strong>Copilot Free</strong> tier (50 chat messages/month) is a fallback.</li>
+                <li><strong>An open-source agent + a free API key</strong> &mdash; tools such as Cline (VS Code extension), aider, or OpenCode are free to install and work with free API keys from Google AI Studio (<a href="https://aistudio.google.com">aistudio.google.com</a>), Groq (<a href="https://groq.com">groq.com</a>), or OpenRouter (<a href="https://openrouter.ai">openrouter.ai</a>), all of which offer daily quotas sufficient for this project. Most setup, most visibility into what the agent is doing.</li>
+                <li><strong>Fully local</strong> &mdash; Ollama (<a href="https://ollama.com">ollama.com</a>) runs open models on your own laptop at zero cost; suitable if your task involves data you don't want to send to a provider. Expect weaker agent behavior from small local models &mdash; which is itself worth writing about.</li>
+            </ul>
+
+            <p>These free tiers change frequently; if one is unavailable when you start, use another and note it in your post.</p>
+        </section>
+
+        <p><a href="index.html">&larr; Back to the course page</a></p>
+    </div>
+
+    <footer>
+        &copy; 2026 Trustworthy AI Course. All rights reserved.
+    </footer>
+
+</body>
+</html>
