@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 2, Trustworthy AI, Fall 2026</title>
+    <meta name="keywords" content="robert pless, trustworthy AI course notes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #35424a;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            color: #35424a;
+            border-bottom: 2px solid #35424a;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .container section {
+            margin-bottom: 30px;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+        }
+
+        .container ol, .container ul {
+            padding-left: 20px;
+        }
+
+        .container li {
+            margin-bottom: 10px;
+        }
+
+        .container a {
+            color: #35424a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Assignment 2: Calibrate It, or Fix It</h1>
+        <p>Trustworthy AI, Fall 2026 &mdash; CSCI 6510 / EMSE 6992</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <p><strong>Due: Friday, October 9, 2026, 12:00 noon.</strong></p>
+
+            <p>In Assignment 1 you watched an agent work on a task you know well, and you asked how anyone would know whether it was right.
+                Many of you found the same thing: the agent was often confident, and sometimes confidently wrong. One agent said "not found" with 90% confidence about
+                documents that exist. Another gave a location radius that missed the true spot five times out of five. Others said "I verified this" when they had not.</p>
+
+            <p>This assignment asks you to go one step further, in one of two directions. You can <strong>measure</strong> how far to trust the agent,
+                or you can try to <strong>fix</strong> a failure you found.</p>
+        </section>
+
+        <section>
+            <h2>Same project, or a new one</h2>
+
+            <p>We encourage you to <strong>continue the task from your Assignment 1</strong>. You already know the domain, you already know where the agent struggled,
+                and you can build on what you found. Link to your first post and pick up where it left off.</p>
+
+            <p>You may also pick something new. If you do, the same rule applies as before: choose a task from a domain you know well enough to judge whether the agent is right,
+                and briefly explain the domain and the task at the start of your post.</p>
+        </section>
+
+        <section>
+            <h2>Option A: Calibrate it</h2>
+
+            <p>When an agent says it is 90% sure, is it right about 90% of the time? Find out for your task.</p>
+
+            <ol>
+                <li><strong>Build a test set.</strong> Make 15&ndash;20 versions of your task where you already know the right answer. These could be more photos, more records to look up, more documents, more stores, or more questions from your field.</li>
+                <li><strong>Ask for an answer and a confidence.</strong> For each one, have the agent give its answer and how confident it is (0&ndash;100%). Use the same prompt every time and include it verbatim in your post.</li>
+                <li><strong>Run each one at least three times.</strong> Does the answer change between runs? Does the confidence change?</li>
+                <li><strong>Score it.</strong> Mark each answer right or wrong. Group the answers by stated confidence (for example, under 50%, 50&ndash;80%, over 80%) and report how often each group was actually right. A simple table or chart is enough.</li>
+                <li><strong>Decide.</strong> Is there a confidence level at which you would act on the agent's answer without checking? Or is its confidence not useful at all? What would you tell a colleague about using it?</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Option B: Write the rule that fixes it</h2>
+
+            <p>Take one specific failure, from your Assignment 1 or from a new task, and try to prevent it.</p>
+
+            <ol>
+                <li><strong>Name the failure.</strong> What exactly went wrong, and why do you think it happened? Show the evidence.</li>
+                <li><strong>Write the fix.</strong> This can be a rule added to the prompt, a checklist the agent must follow, a required format for its answer, or a small script that checks its work. For example: "a page that will not load is not evidence that the document does not exist," or "for every requirement, quote the line on the employer's page that shows it is met."</li>
+                <li><strong>Rerun it.</strong> Run the original task again with the fix, plus at least three new cases the fix was not written for. Show the results before and after.</li>
+                <li><strong>Find what it broke.</strong> Did the fix cause a new problem, make the agent slower or more cautious than it should be, or fail on one of the new cases? Report at least one case where the fix did not help or made things worse.</li>
+                <li><strong>Decide.</strong> Does your fix make the agent trustworthy enough for this task? What would still need to be true before you let it run without you watching?</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>What to hand in</h2>
+
+            <p>A blog post, about three screenfuls, as in Assignment 1. Include:</p>
+            <ul>
+                <li>Which option you chose, and a link to your Assignment 1 post if you are continuing it.</li>
+                <li>Your exact prompts, verbatim.</li>
+                <li>Real evidence: screenshots or transcript excerpts, and your table of results.</li>
+                <li>How you checked the answers yourself.</li>
+                <li>One sentence saying how you used AI, if at all, in writing the post itself.</li>
+            </ul>
+
+            <p>A careful result that shows the agent cannot be trusted, or that your fix did not work, is just as good as one where everything went well.</p>
+
+            <p>The free agent options listed in <a href="assignment1.html">Assignment 1</a> are all fine to use again.</p>
+        </section>
+
+        <section>
+            <h2>Submitting your project</h2>
+            <p>Submit a link to your blog post here: <a href="https://docs.google.com/forms/d/e/1FAIpQLSe618dz2Gra56t_vh2tfS-BO7BeRPLTy9lsIgXyzFqn2KqV9A/viewform">submission form</a>.</p>
+        </section>
+
+        <p><a href="index.html">&larr; Back to the course page</a></p>
+    </div>
+
+    <footer>
+        &copy; 2026 Trustworthy AI Course. All rights reserved.
+    </footer>
+
+</body>
+</html>
