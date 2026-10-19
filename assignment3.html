@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 3, Trustworthy AI, Fall 2026</title>
+    <meta name="keywords" content="robert pless, trustworthy AI course notes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #35424a;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            color: #35424a;
+            border-bottom: 2px solid #35424a;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .container section {
+            margin-bottom: 30px;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+        }
+
+        .container ol, .container ul {
+            padding-left: 20px;
+        }
+
+        .container li {
+            margin-bottom: 10px;
+        }
+
+        .container a {
+            color: #35424a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Assignment 3: Does It Keep Its Promises?</h1>
+        <p>Trustworthy AI, Fall 2026 &mdash; CSCI 6510 / EMSE 6992</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <p><strong>Due: Monday, November 2, 2026, 12:00 noon.</strong> Your predictions (step 2 below) are due earlier, at the start of class on Monday, October 26.</p>
+
+            <p>AI companies publish documents that describe how their models are supposed to behave. These are public promises: the model will tell you when it is unsure,
+                it won't just agree with you, it will give balanced views. Pick one model and test three of its promises in ordinary use, in a domain you know well.
+                Your domain from Assignment 1 or 2 is fine.</p>
+        </section>
+
+        <section>
+            <h2>The documents</h2>
+            <ul>
+                <li><strong>OpenAI:</strong> the <a href="https://model-spec.openai.com/2026-08-18.html">Model Spec</a> (version dated August 18, 2026). Good sections to start with:
+                    <a href="https://model-spec.openai.com/2026-08-18.html#avoid_sycophancy">Don't be sycophantic</a>, <a href="https://model-spec.openai.com/2026-08-18.html#express_uncertainty">Express uncertainty</a>, <a href="https://model-spec.openai.com/2026-08-18.html#do_not_lie">Do not lie</a>.</li>
+                <li><strong>Anthropic:</strong> <a href="https://www.anthropic.com/constitution#being-honest">Claude's Constitution</a>, especially the "Being honest" section,
+                    and the Claude app's <a href="https://platform.claude.com/docs/en/release-notes/system-prompts/overview">published system prompts</a>.</li>
+                <li><strong>Google:</strong> <a href="https://gemini.google/our-approach/">Our approach to the Gemini app</a>.</li>
+                <li><strong>xAI:</strong> <a href="https://github.com/xai-org/grok-prompts">Grok's system prompts on GitHub</a>.</li>
+                <li>Each company also publishes its own test results in system cards or model cards:
+                    <a href="https://deploymentsafety.openai.com/">OpenAI</a>, <a href="https://www.anthropic.com/system-cards">Anthropic</a>, <a href="https://deepmind.google/models/model-cards/">Google</a>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>What to do</h2>
+            <ol>
+                <li><strong>Pick three promises.</strong> Quote each one exactly, with a link and the date of the document.</li>
+                <li><strong>Predict, before you run anything.</strong> For each promise, write down what keeping it and breaking it would look like, and what you predict will happen.
+                    Hand this in on paper at the start of class on Monday, October 26. If you are attending remotely, email it before class starts.
+                    Include these predictions in your post, unchanged.</li>
+                <li><strong>Test.</strong> Test each promise at least five times, in fresh chats. Record the model, the date, and the settings (for example, whether web search was on).</li>
+                <li><strong>Say how you know.</strong> For each test, write one line on how you know the right answer: your own work or lab data, course notes, or a print source.
+                    This is one of the most important parts of the post.</li>
+                <li><strong>Score.</strong> Mark each try as kept, partly kept, or broken, with a short quote as evidence.</li>
+                <li><strong>Compare.</strong> Check whether the company's own system card tested this behavior, and whether your results agree.</li>
+            </ol>
+
+            <p><strong>Example test:</strong> ask a factual question in your field twice, once neutrally and once stating a wrong belief as your own. Does the answer change?
+                OpenAI promises the facts "should not differ based on how the user's question is phrased."</p>
+
+            <p><strong>Ground rule:</strong> test everyday behavior, such as honesty, uncertainty, flattery, balance, and accurate summaries.
+                Don't test safety rules by making harmful requests or by trying to get around them.</p>
+        </section>
+
+        <section>
+            <h2>What to hand in</h2>
+            <p>A blog post, about three screenfuls, as in Assignments 1 and 2. Include:</p>
+            <ul>
+                <li>The model, the date, and the settings.</li>
+                <li>Your three promises, quoted and linked, and your predictions as you handed them in on October 26.</li>
+                <li>A results table with evidence, and your "how I know" line for each test.</li>
+                <li>What the company's own tests say.</li>
+                <li>Your verdict on each promise, and whether the gap matters in your field.</li>
+                <li>One sentence saying how you used AI, if at all, in writing the post itself.</li>
+            </ul>
+            <p>A careful post showing that a model kept every promise is just as good as one that catches it breaking them.</p>
+        </section>
+
+        <section>
+            <h2>Submitting your project</h2>
+            <p>Submit a link to your blog post here: <a href="https://docs.google.com/forms/d/e/1FAIpQLSe618dz2Gra56t_vh2tfS-BO7BeRPLTy9lsIgXyzFqn2KqV9A/viewform">submission form</a>.</p>
+        </section>
+
+        <p><a href="index.html">&larr; Back to the course page</a></p>
+    </div>
+
+    <footer>
+        &copy; 2026 Trustworthy AI Course. All rights reserved.
+    </footer>
+
+</body>
+</html>
