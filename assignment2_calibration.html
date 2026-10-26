@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confidence vs. Accuracy</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --panel: #f4f3f0; --border: #e2e1dc;
+  --text: #0b0b0b; --text-2: #52514e; --muted: #8a8984;
+  --grid: #e9e8e3; --axis: #b9b8b2;
+  --mark: #5f5e5a; --sel: #2a78d6; --right: #2a78d6; --wrong: #eb6834; --pooled: #0b0b0b;
+  --under: #2a78d6; --over: #eb6834;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --panel: #232321; --border: #383835;
+    --text: #f0efec; --text-2: #c3c2b7; --muted: #8f8e88;
+    --grid: #2c2c2a; --axis: #55544f;
+    --mark: #a3a29b; --sel: #3987e5; --right: #3987e5; --wrong: #d95926; --pooled: #f0efec;
+    --under: #3987e5; --over: #d95926;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --panel: #232321; --border: #383835;
+  --text: #f0efec; --text-2: #c3c2b7; --muted: #8f8e88;
+  --grid: #2c2c2a; --axis: #55544f;
+  --mark: #a3a29b; --sel: #3987e5; --right: #3987e5; --wrong: #d95926; --pooled: #f0efec;
+  --under: #3987e5; --over: #d95926;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--text);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 40px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+.sub { color: var(--text-2); margin: 0 0 16px; max-width: 78ch; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 12px; }
+.tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.tabs button { border: 0; background: transparent; color: var(--text-2); padding: 7px 12px; font: inherit; cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--panel); color: var(--text); font-weight: 600; }
+label.chk { color: var(--text-2); font-size: 14px; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 20px; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+.chart { position: relative; }
+svg { width: 100%; height: auto; display: block; }
+svg text { fill: var(--text-2); font-size: 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--text-2); margin: 6px 0 0; align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.side { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px; font-size: 14px; align-self: start; }
+.side h2 { font-size: 15px; margin: 0 0 6px; }
+.side dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+.side dt { color: var(--text-2); }
+.side dd { margin: 0; font-variant-numeric: tabular-nums; }
+.side p { margin: 8px 0 0; }
+.side .hint { color: var(--muted); margin: 0; }
+.fam { margin-top: 12px; }
+.fam h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 4px; display: flex; gap: 6px; align-items: center; }
+.list { display: flex; flex-wrap: wrap; gap: 5px; }
+.list button { font: 13px/1.2 system-ui, sans-serif; border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+  border-radius: 999px; padding: 4px 9px; cursor: pointer; text-align: left; }
+.list button.on { border-color: var(--sel); color: var(--text); box-shadow: inset 0 0 0 1px var(--sel); }
+#tip { position: absolute; pointer-events: none; background: var(--surface); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 9px; font-size: 13px; box-shadow: 0 4px 14px rgba(0,0,0,.12); max-width: 270px; display: none; z-index: 2; }
+#tip b { font-weight: 600; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+th { color: var(--text-2); font-weight: 600; }
+td.n, th.n { text-align: right; }
+.tablewrap { overflow-x: auto; }
+.note { color: var(--muted); font-size: 13px; margin-top: 10px; max-width: 80ch; }
+.hit { cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+<h1>When the agent says it is 90% sure, is it right 90% of the time?</h1>
+<p class="sub">Assignment 2, Option A. Each post gave an agent 15–20 tasks with known answers and asked for a confidence from 0 to 100%. Each mark is one group of answers with similar confidence, from one kind of question. The dashed line is perfect calibration: above it the agent was under-confident, below it over-confident.</p>
+
+<div class="bar">
+  <div class="tabs" role="tablist">
+    <button role="tab" data-view="scatter" aria-selected="true">Scatter</button>
+    <button role="tab" data-view="strip" aria-selected="false">Every answer</button>
+    <button role="tab" data-view="table" aria-selected="false">Table</button>
+  </div>
+  <label class="chk"><input type="checkbox" id="pooled"> Show all answers pooled</label>
+  <label class="chk"><input type="checkbox" id="private"> Include posts with no share permission (<span id="privn">0</span> series)</label>
+</div>
+
+<div class="layout">
+  <div class="chart" id="chartbox">
+    <div id="chart"></div>
+    <div class="legend" id="legend"></div>
+    <div id="tip"></div>
+    <p class="note" id="note"></p>
+  </div>
+  <aside class="side" id="side"></aside>
+</div>
+<p class="note"><a href="index.html" style="color:inherit">← Back to the course page</a></p>
+</main>
+
+<script>
+const SERIES = [{"id": "geo250", "label": "Photo geo-location (250 m)", "family": "Geo-location", "share": true, "task": "Find where each of 15 travel photos was taken, with the location data removed; 3 new chats per photo.", "conf_meaning": "Chance that the camera was within 250 m of the guess.", "right_meaning": "Distance from the guess to the original GPS position, computed with a script.", "note": "Over-confident at every level, but higher confidence still meant more right answers. The near-certain answers came from text in the photo.", "answers": [{"c": 70, "r": 0}, {"c": 50, "r": 0}, {"c": 35, "r": 0}, {"c": 72, "r": 0}, {"c": 75, "r": 0}, {"c": 45, "r": 0}, {"c": 45, "r": 0}, {"c": 35, "r": 0}, {"c": 18, "r": 0}, {"c": 92, "r": 0}, {"c": 92, "r": 0}, {"c": 91, "r": 0}, {"c": 99, "r": 0}, {"c": 85, "r": 0}, {"c": 99, "r": 0}, {"c": 15, "r": 0}, {"c": 15, "r": 0}, {"c": 12, "r": 0}, {"c": 98, "r": 0}, {"c": 94, "r": 0}, {"c": 96, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 99, "r": 1}, {"c": 30, "r": 1}, {"c": 80, "r": 1}, {"c": 98, "r": 1}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 98, "r": 1}, {"c": 99, "r": 1}, {"c": 100, "r": 1}, {"c": 100, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 98, "r": 1}, {"c": 99, "r": 1}], "points": [{"lo": 12, "hi": 35, "x": 22.857142857142858, "n": 7, "acc": 0.14285714285714285}, {"lo": 45, "hi": 75, "x": 59.5, "n": 6, "acc": 0.0}, {"lo": 80, "hi": 94, "x": 89.0, "n": 6, "acc": 0.16666666666666666}, {"lo": 96, "hi": 98, "x": 97.33333333333333, "n": 9, "acc": 0.7777777777777778}, {"lo": 99, "hi": 100, "x": 99.11764705882354, "n": 17, "acc": 0.8823529411764706}], "approx": false}, {"id": "aircraft", "label": "Aircraft ID from video (airline + type)", "family": "Images and video", "share": true, "task": "Name the airline and aircraft type of each plane in spotting videos; 3 runs.", "conf_meaning": "One number for airline and type together.", "right_meaning": "Checked by hand against the video.", "note": "Airline and type share one confidence number, so each confidence appears twice. Every answer at 80% or more was right.", "answers": [{"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 25, "r": 1}, {"c": 25, "r": 0}, {"c": 25, "r": 1}, {"c": 25, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 20, "r": 0}, {"c": 20, "r": 0}, {"c": 40, "r": 1}, {"c": 40, "r": 1}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 20, "r": 0}, {"c": 20, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 15, "r": 0}, {"c": 15, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 75, "r": 1}, {"c": 75, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 75, "r": 1}, {"c": 75, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 15, "r": 0}, {"c": 15, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 45, "r": 1}, {"c": 45, "r": 1}, {"c": 45, "r": 1}, {"c": 45, "r": 1}, {"c": 55, "r": 1}, {"c": 55, "r": 1}, {"c": 45, "r": 1}, {"c": 45, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 20, "r": 0}, {"c": 20, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 30, "r": 1}, {"c": 30, "r": 0}, {"c": 20, "r": 1}, {"c": 20, "r": 0}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 70, "r": 1}, {"c": 70, "r": 1}, {"c": 65, "r": 1}, {"c": 65, "r": 1}, {"c": 55, "r": 1}, {"c": 55, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 70, "r": 1}, {"c": 70, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 15, "r": 0}, {"c": 15, "r": 0}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 88, "r": 1}, {"c": 88, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 30, "r": 1}, {"c": 30, "r": 0}, {"c": 75, "r": 1}, {"c": 75, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 88, "r": 1}, {"c": 88, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 25, "r": 1}, {"c": 25, "r": 0}, {"c": 15, "r": 1}, {"c": 15, "r": 1}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 30, "r": 0}, {"c": 30, "r": 0}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 75, "r": 1}, {"c": 75, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 75, "r": 1}, {"c": 75, "r": 1}, {"c": 10, "r": 1}, {"c": 10, "r": 0}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 30, "r": 1}, {"c": 30, "r": 0}, {"c": 20, "r": 1}, {"c": 20, "r": 0}], "points": [{"lo": 5, "hi": 15, "x": 10.357142857142858, "n": 28, "acc": 0.10714285714285714}, {"lo": 20, "hi": 30, "x": 24.583333333333332, "n": 24, "acc": 0.3333333333333333}, {"lo": 40, "hi": 60, "x": 54.23076923076923, "n": 26, "acc": 1.0}, {"lo": 65, "hi": 80, "x": 76.66666666666667, "n": 36, "acc": 1.0}, {"lo": 85, "hi": 85, "x": 85.0, "n": 24, "acc": 1.0}, {"lo": 88, "hi": 93, "x": 90.83333333333333, "n": 24, "acc": 1.0}, {"lo": 95, "hi": 97, "x": 95.22222222222223, "n": 18, "acc": 1.0}], "approx": false}, {"id": "stage", "label": "Flight stage from video", "family": "Images and video", "share": true, "task": "Say if each plane in the video is taking off, landing, taxiing or parked; 3 runs.", "conf_meaning": "Confidence in the flight stage.", "right_meaning": "Checked by hand against the video.", "note": "Under-confident: the agent was right much more often than it said.", "answers": [{"c": 92, "r": 1}, {"c": 75, "r": 1}, {"c": 90, "r": 1}, {"c": 55, "r": 1}, {"c": 70, "r": 1}, {"c": 70, "r": 1}, {"c": 60, "r": 1}, {"c": 90, "r": 1}, {"c": 95, "r": 1}, {"c": 90, "r": 1}, {"c": 10, "r": 0}, {"c": 15, "r": 0}, {"c": 20, "r": 0}, {"c": 15, "r": 0}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 60, "r": 1}, {"c": 30, "r": 0}, {"c": 55, "r": 1}, {"c": 55, "r": 1}, {"c": 96, "r": 1}, {"c": 92, "r": 1}, {"c": 95, "r": 1}, {"c": 55, "r": 1}, {"c": 20, "r": 0}, {"c": 75, "r": 1}, {"c": 65, "r": 1}, {"c": 70, "r": 1}, {"c": 60, "r": 1}, {"c": 60, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 50, "r": 1}, {"c": 88, "r": 1}, {"c": 90, "r": 1}, {"c": 85, "r": 1}, {"c": 45, "r": 1}, {"c": 45, "r": 0}, {"c": 70, "r": 0}, {"c": 96, "r": 1}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 15, "r": 0}, {"c": 25, "r": 0}, {"c": 20, "r": 0}, {"c": 45, "r": 1}, {"c": 25, "r": 0}, {"c": 45, "r": 1}, {"c": 20, "r": 0}, {"c": 75, "r": 1}, {"c": 70, "r": 1}, {"c": 85, "r": 1}, {"c": 55, "r": 1}, {"c": 30, "r": 1}, {"c": 20, "r": 1}, {"c": 88, "r": 1}, {"c": 95, "r": 1}, {"c": 90, "r": 1}, {"c": 5, "r": 0}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 20, "r": 0}, {"c": 30, "r": 0}, {"c": 20, "r": 0}, {"c": 40, "r": 1}, {"c": 20, "r": 0}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 20, "r": 0}, {"c": 30, "r": 0}, {"c": 30, "r": 0}, {"c": 55, "r": 0}, {"c": 10, "r": 0}, {"c": 15, "r": 0}, {"c": 25, "r": 0}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 90, "r": 1}, {"c": 20, "r": 0}, {"c": 30, "r": 0}, {"c": 25, "r": 0}, {"c": 10, "r": 0}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 20, "r": 0}, {"c": 25, "r": 0}], "points": [{"lo": 5, "hi": 20, "x": 16.57894736842105, "n": 19, "acc": 0.05263157894736842}, {"lo": 25, "hi": 30, "x": 27.727272727272727, "n": 11, "acc": 0.09090909090909091}, {"lo": 40, "hi": 55, "x": 50.0, "n": 12, "acc": 0.8333333333333334}, {"lo": 60, "hi": 75, "x": 67.6923076923077, "n": 13, "acc": 0.9230769230769231}, {"lo": 80, "hi": 90, "x": 87.16666666666667, "n": 12, "acc": 1.0}, {"lo": 92, "hi": 95, "x": 94.33333333333333, "n": 15, "acc": 1.0}, {"lo": 96, "hi": 97, "x": 96.625, "n": 8, "acc": 1.0}], "approx": false}, {"id": "crash", "label": "Traffic crash images", "family": "Images and video", "share": true, "task": "Count the vehicles and name the crash type in 15 traffic-camera images; 3 new chats.", "conf_meaning": "Confidence in each answer.", "right_meaning": "The student's own labels, made before the runs.", "note": "The post gives only three groups, with no mean confidence, so each group is a bar across its range. Some totals in the post do not agree.", "answers": [], "points": [{"lo": 0, "hi": 50, "x": null, "n": 25, "acc": 0.64}, {"lo": 50, "hi": 80, "x": null, "n": 51, "acc": 0.765}, {"lo": 80, "hi": 100, "x": null, "n": 14, "acc": 0.857}], "approx": true}, {"id": "photographer", "label": "Photographer attribution", "family": "Images and video", "share": true, "task": "Name the photographer of 15 photos that all come from one known photographer.", "conf_meaning": "Confidence in the name given.", "right_meaning": "Right only for the true photographer. 'Unknown' counts as wrong.", "note": "Only run 1 has data for each answer. Most answers were 'Unknown' at 5–10%.", "answers": [{"c": 10, "r": 0}, {"c": 10, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 35, "r": 0}, {"c": 30, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 10, "r": 0}, {"c": 5, "r": 0}, {"c": 5, "r": 0}, {"c": 15, "r": 0}], "points": [{"lo": 5, "hi": 5, "x": 5.0, "n": 9, "acc": 0.0}, {"lo": 10, "hi": 35, "x": 18.333333333333332, "n": 6, "acc": 0.0}], "approx": false}, {"id": "author-haiku", "label": "Who wrote this text? (small model)", "family": "Text and documents", "share": true, "task": "Say if each of 16 short answers was written by a person or by one of three chatbots.", "conf_meaning": "Probability given to the chosen author.", "right_meaning": "Known author: human answers from before ChatGPT, chatbot answers made by the student.", "note": "The judge saw all 16 texts at once. Positions are read from a chart in the post, so they are approximate.", "answers": [], "points": [{"lo": 40, "hi": 40, "x": 40, "n": 30, "acc": 0.5}, {"lo": 55, "hi": 55, "x": 55, "n": 15, "acc": 1.0}, {"lo": 87, "hi": 87, "x": 87, "n": 3, "acc": 1.0}], "approx": true}, {"id": "author-opus", "label": "Who wrote this text? (large model)", "family": "Text and documents", "share": true, "task": "Say if each of 16 short answers was written by a person or by one of three chatbots.", "conf_meaning": "Probability given to the chosen author.", "right_meaning": "Known author: human answers from before ChatGPT, chatbot answers made by the student.", "note": "One run; all 16 answers right. Positions are read from a chart, so they are approximate.", "answers": [], "points": [{"lo": 55, "hi": 55, "x": 55, "n": 12, "acc": 1.0}, {"lo": 84, "hi": 84, "x": 84, "n": 4, "acc": 1.0}], "approx": true}, {"id": "quotes", "label": "Movie quote check", "family": "Text and documents", "share": true, "task": "Say if each of 18 famous movie quotes is accurate or a misquote, and give the real line; 3 runs with web search.", "conf_meaning": "Chance that the verdict and the line are both right.", "right_meaning": "Answer key written before the runs; one scene checked by watching it.", "note": "All 54 answers were right, so the data can show only under-confidence.", "answers": [{"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 92, "r": 1}, {"c": 95, "r": 1}, {"c": 92, "r": 1}, {"c": 90, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 70, "r": 1}, {"c": 90, "r": 1}, {"c": 95, "r": 1}, {"c": 92, "r": 1}, {"c": 93, "r": 1}, {"c": 95, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 88, "r": 1}, {"c": 85, "r": 1}, {"c": 80, "r": 1}, {"c": 80, "r": 1}, {"c": 97, "r": 1}, {"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 93, "r": 1}, {"c": 87, "r": 1}, {"c": 88, "r": 1}, {"c": 88, "r": 1}, {"c": 93, "r": 1}, {"c": 92, "r": 1}, {"c": 92, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 97, "r": 1}, {"c": 97, "r": 1}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 90, "r": 1}, {"c": 88, "r": 1}], "points": [{"lo": 70, "hi": 85, "x": 81.875, "n": 8, "acc": 1.0}, {"lo": 87, "hi": 90, "x": 89.0, "n": 11, "acc": 1.0}, {"lo": 92, "hi": 92, "x": 92.0, "n": 7, "acc": 1.0}, {"lo": 93, "hi": 95, "x": 94.33333333333333, "n": 18, "acc": 1.0}, {"lo": 96, "hi": 97, "x": 96.3, "n": 10, "acc": 1.0}], "approx": false}, {"id": "email-S", "label": "Email → spreadsheet updates (single project)", "family": "Data and records", "share": true, "task": "Read emails about one project and edit the right cells in Excel trackers; 3 runs.", "conf_meaning": "Confidence that the whole case was done right.", "right_meaning": "Right only if every change was saved in the file and nothing else changed.", "note": "Confidence was 99–100% on every case, so the number gave no signal. Most errors: the agent said that it saved a change, but the file did not change.", "answers": [{"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}], "points": [{"lo": 99, "hi": 99, "x": 99.0, "n": 15, "acc": 1.0}], "approx": false}, {"id": "email-M", "label": "Email → spreadsheet updates (several projects)", "family": "Data and records", "share": true, "task": "Read emails that change several projects and edit the right cells in Excel trackers; 3 runs.", "conf_meaning": "Confidence that the whole case was done right.", "right_meaning": "Right only if every change was saved in the file and nothing else changed.", "note": "Confidence was 99–100% on every case, so the number gave no signal. Most errors: the agent said that it saved a change, but the file did not change.", "answers": [{"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 0}, {"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 0}], "points": [{"lo": 99, "hi": 99, "x": 99.0, "n": 15, "acc": 0.26666666666666666}], "approx": false}, {"id": "email-E", "label": "Email → spreadsheet updates (edge cases)", "family": "Data and records", "share": true, "task": "Read emails with complications and edit the right cells in Excel trackers; 3 runs.", "conf_meaning": "Confidence that the whole case was done right.", "right_meaning": "Right only if every change was saved in the file and nothing else changed.", "note": "Confidence was 99–100% on every case, so the number gave no signal. Most errors: the agent said that it saved a change, but the file did not change.", "answers": [{"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 100, "r": 1}, {"c": 99, "r": 1}, {"c": 100, "r": 1}, {"c": 99, "r": 0}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}, {"c": 99, "r": 1}], "points": [{"lo": 99, "hi": 100, "x": 99.13333333333334, "n": 15, "acc": 0.8666666666666667}], "approx": false}, {"id": "directory", "label": "Directory fact check", "family": "Data and records", "share": true, "task": "Check 15 person–organization pairs against official online directories; 3 runs.", "conf_meaning": "Confidence in a yes/no answer.", "right_meaning": "The student checked each directory by hand.", "note": "Every answer was 'Yes' at 86–98%. The same 4 wrong pairs came back in all 3 runs.", "answers": [{"c": 98, "r": 1}, {"c": 96, "r": 1}, {"c": 98, "r": 1}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 94, "r": 1}, {"c": 96, "r": 1}, {"c": 91, "r": 0}, {"c": 88, "r": 0}, {"c": 92, "r": 0}, {"c": 97, "r": 1}, {"c": 96, "r": 1}, {"c": 98, "r": 1}, {"c": 96, "r": 1}, {"c": 94, "r": 1}, {"c": 95, "r": 1}, {"c": 94, "r": 1}, {"c": 92, "r": 1}, {"c": 95, "r": 1}, {"c": 90, "r": 0}, {"c": 87, "r": 0}, {"c": 91, "r": 0}, {"c": 95, "r": 1}, {"c": 93, "r": 1}, {"c": 94, "r": 1}, {"c": 94, "r": 1}, {"c": 92, "r": 1}, {"c": 95, "r": 1}, {"c": 89, "r": 0}, {"c": 86, "r": 0}, {"c": 90, "r": 0}, {"c": 97, "r": 1}, {"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 94, "r": 1}, {"c": 97, "r": 1}, {"c": 92, "r": 0}, {"c": 89, "r": 0}, {"c": 91, "r": 0}, {"c": 95, "r": 1}, {"c": 93, "r": 1}, {"c": 96, "r": 1}], "points": [{"lo": 86, "hi": 90, "x": 88.42857142857143, "n": 7, "acc": 0.0}, {"lo": 91, "hi": 92, "x": 91.57142857142857, "n": 7, "acc": 0.2857142857142857}, {"lo": 93, "hi": 94, "x": 93.75, "n": 8, "acc": 1.0}, {"lo": 95, "hi": 95, "x": 95.0, "n": 8, "acc": 1.0}, {"lo": 96, "hi": 96, "x": 96.0, "n": 8, "acc": 1.0}, {"lo": 97, "hi": 98, "x": 97.42857142857143, "n": 7, "acc": 1.0}], "approx": false}, {"id": "culture", "label": "Cultural knowledge questions", "family": "Knowledge and planning", "share": true, "task": "Answer 16 questions about one country's culture; 3 new chats each.", "conf_meaning": "Chance that a native of the country would call the answer right.", "right_meaning": "The student's own knowledge as a native; one score per question for all three runs.", "note": "Under-confident by about 35 points. Agreement across runs was a better signal than the number.", "answers": [{"c": 85, "r": 1}, {"c": 82, "r": 1}, {"c": 80, "r": 1}, {"c": 55, "r": 1}, {"c": 30, "r": 1}, {"c": 30, "r": 1}, {"c": 50, "r": 1}, {"c": 45, "r": 1}, {"c": 40, "r": 1}, {"c": 58, "r": 1}, {"c": 40, "r": 1}, {"c": 50, "r": 1}, {"c": 42, "r": 1}, {"c": 12, "r": 1}, {"c": 20, "r": 1}, {"c": 25, "r": 0}, {"c": 8, "r": 0}, {"c": 12, "r": 0}, {"c": 62, "r": 1}, {"c": 55, "r": 1}, {"c": 65, "r": 1}, {"c": 82, "r": 1}, {"c": 85, "r": 1}, {"c": 85, "r": 1}, {"c": 95, "r": 1}, {"c": 96, "r": 1}, {"c": 97, "r": 1}, {"c": 88, "r": 1}, {"c": 78, "r": 1}, {"c": 82, "r": 1}, {"c": 78, "r": 1}, {"c": 55, "r": 1}, {"c": 70, "r": 1}, {"c": 20, "r": 1}, {"c": 12, "r": 1}, {"c": 10, "r": 1}, {"c": 72, "r": 1}, {"c": 68, "r": 1}, {"c": 60, "r": 1}, {"c": 50, "r": 1}, {"c": 10, "r": 1}, {"c": 25, "r": 1}, {"c": 55, "r": 1}, {"c": 45, "r": 1}, {"c": 60, "r": 1}, {"c": 30, "r": 0}, {"c": 20, "r": 0}, {"c": 35, "r": 0}], "points": [{"lo": 8, "hi": 12, "x": 10.666666666666666, "n": 6, "acc": 0.6666666666666666}, {"lo": 20, "hi": 30, "x": 25.0, "n": 8, "acc": 0.625}, {"lo": 35, "hi": 45, "x": 41.166666666666664, "n": 6, "acc": 0.8333333333333334}, {"lo": 50, "hi": 55, "x": 52.857142857142854, "n": 7, "acc": 1.0}, {"lo": 58, "hi": 68, "x": 62.166666666666664, "n": 6, "acc": 1.0}, {"lo": 70, "hi": 82, "x": 78.0, "n": 8, "acc": 1.0}, {"lo": 85, "hi": 97, "x": 90.14285714285714, "n": 7, "acc": 1.0}], "approx": false}, {"id": "game", "label": "Game team planning", "family": "Knowledge and planning", "share": true, "task": "Pick a 5-member team for 8 jobs in a video game; 4 prompt variants, 10 runs each.", "conf_meaning": "Chance that an expert player would call the team right.", "right_meaning": "The student's expert rules, which the agent did not see.", "note": "Each dot is one prompt variant (the post links confidence to variants only as averages).", "answers": [{"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 96, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 1}, {"c": 95, "r": 0}, {"c": 94, "r": 1}, {"c": 94, "r": 1}, {"c": 94, "r": 1}, {"c": 93, "r": 1}, {"c": 93, "r": 1}, {"c": 93, "r": 0}, {"c": 93, "r": 0}, {"c": 90, "r": 1}, {"c": 90, "r": 1}, {"c": 90, "r": 0}, {"c": 87, "r": 1}, {"c": 87, "r": 1}, {"c": 87, "r": 0}, {"c": 84, "r": 1}, {"c": 84, "r": 1}, {"c": 84, "r": 0}, {"c": 84, "r": 0}, {"c": 81, "r": 1}, {"c": 81, "r": 1}, {"c": 81, "r": 0}, {"c": 81, "r": 0}, {"c": 81, "r": 0}, {"c": 79, "r": 1}, {"c": 79, "r": 1}, {"c": 79, "r": 0}, {"c": 79, "r": 0}, {"c": 75, "r": 1}, {"c": 75, "r": 0}, {"c": 75, "r": 0}, {"c": 75, "r": 0}], "points": [{"lo": 85.1, "hi": 85.1, "x": 85.1, "n": 10, "acc": 0.7, "label": "No restrictions"}, {"lo": 84.8, "hi": 84.8, "x": 84.8, "n": 10, "acc": 0.4, "label": "One duplicate species"}, {"lo": 85.0, "hi": 85.0, "x": 85.0, "n": 10, "acc": 0.5, "label": "Common/rare only"}, {"lo": 94.7, "hi": 94.7, "x": 94.7, "n": 10, "acc": 0.9, "label": "Ignore ability levels"}], "approx": false}];
+const FAMILIES = ["Geo-location", "Images and video", "Text and documents", "Data and records", "Knowledge and planning"];
+const SHAPES = { "Geo-location": "circle", "Images and video": "square", "Text and documents": "triangle",
+                 "Data and records": "diamond", "Knowledge and planning": "cross" };
+
+const state = { view: "scatter", priv: false, pooled: false, sel: null };
+const W = 760, H = 560, M = { l: 56, r: 30, t: 30, b: 52 };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pct = v => v == null ? "–" : Math.round(v * 100) + "%";
+const num = v => v == null ? "–" : (Math.round(v * 10) / 10) + "%";
+const rng = p => p.x == null ? `${p.lo}–${p.hi}% (exact values not given)` : p.lo === p.hi ? `${num(p.x)}` : `${p.lo}–${p.hi}% (mean ${num(p.x)})`;
+
+function visible() { return SERIES.filter(s => s.share || state.priv); }
+
+function stats(s) {
+  if (s.answers.length) {
+    const a = s.answers, n = a.length, mean = xs => xs.length ? xs.reduce((t, x) => t + x.c, 0) / xs.length : null;
+    return { n, acc: a.reduce((t, x) => t + x.r, 0) / n, conf: mean(a),
+             confRight: mean(a.filter(x => x.r === 1)), confWrong: mean(a.filter(x => x.r === 0)) };
+  }
+  const n = s.points.reduce((t, p) => t + p.n, 0);
+  const known = s.points.every(p => p.x != null);
+  return { n, acc: s.points.reduce((t, p) => t + p.n * p.acc, 0) / n,
+           conf: known ? s.points.reduce((t, p) => t + p.n * p.x, 0) / n : null, confRight: null, confWrong: null };
+}
+
+// ---------- svg helpers ----------
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const sx = c => M.l + (c / 100) * (W - M.l - M.r);
+const sy = a => H - M.b - a * (H - M.t - M.b);
+
+function shape(parent, kind, x, y, k, attrs) {
+  const d = {
+    circle: null,
+    square: `M${x - k * .9},${y - k * .9}h${k * 1.8}v${k * 1.8}h${-k * 1.8}z`,
+    triangle: `M${x},${y - k * 1.15}L${x + k * 1.1},${y + k * .8}L${x - k * 1.1},${y + k * .8}z`,
+    diamond: `M${x},${y - k * 1.2}L${x + k * 1.2},${y}L${x},${y + k * 1.2}L${x - k * 1.2},${y}z`,
+    cross: `M${x - k * .35},${y - k * 1.1}h${k * .7}v${k * .75}h${k * .75}v${k * .7}h${-k * .75}v${k * .75}h${-k * .7}v${-k * .75}h${-k * .75}v${-k * .7}h${k * .75}z`,
+  }[kind];
+  return d ? el("path", { d, ...attrs }, parent) : el("circle", { cx: x, cy: y, r: k, ...attrs }, parent);
+}
+function shapeIcon(kind) {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 16 16"); s.setAttribute("width", 14); s.setAttribute("height", 14);
+  s.setAttribute("style", "width:14px;display:inline");
+  shape(s, kind, 8, 8, 5.5, { fill: css("--mark") });
+  return s.outerHTML;
+}
+
+function axes(svg) {
+  for (let v = 0; v <= 100; v += 10) {
+    el("line", { x1: sx(v), x2: sx(v), y1: sy(0), y2: sy(1), stroke: css("--grid") }, svg);
+    el("line", { x1: sx(0), x2: sx(100), y1: sy(v / 100), y2: sy(v / 100), stroke: css("--grid") }, svg);
+    el("text", { x: sx(v), y: H - M.b + 18, "text-anchor": "middle" }, svg).textContent = v + "%";
+    el("text", { x: M.l - 8, y: sy(v / 100) + 4, "text-anchor": "end" }, svg).textContent = v + "%";
+  }
+  el("line", { x1: sx(0), x2: sx(100), y1: sy(0), y2: sy(0), stroke: css("--axis") }, svg);
+  el("line", { x1: sx(0), x2: sx(0), y1: sy(0), y2: sy(1), stroke: css("--axis") }, svg);
+  el("line", { x1: sx(0), y1: sy(0), x2: sx(100), y2: sy(1), stroke: css("--muted"), "stroke-dasharray": "5 5", "stroke-width": 1.5 }, svg);
+  const ang = -Math.atan2(sy(0) - sy(1), sx(100) - sx(0)) * 180 / Math.PI;
+  el("text", { x: sx(28), y: sy(0.28) - 6, "text-anchor": "middle", transform: `rotate(${ang} ${sx(28)} ${sy(0.28) - 6})` }, svg).textContent = "perfect calibration";
+  el("text", { x: (sx(0) + sx(100)) / 2, y: H - 8, "text-anchor": "middle", style: "font-size:13px" }, svg).textContent = "Stated confidence";
+  el("text", { x: 14, y: (sy(0) + sy(1)) / 2, "text-anchor": "middle", transform: `rotate(-90 14 ${(sy(0) + sy(1)) / 2})`, style: "font-size:13px" }, svg).textContent = "Share of answers that were right";
+  el("text", { x: sx(3), y: sy(0.97), style: `font-size:12px;font-weight:600;fill:${css("--under")}` }, svg).textContent = "↖ under-confident";
+  el("text", { x: sx(97), y: sy(0.03), "text-anchor": "end", style: `font-size:12px;font-weight:600;fill:${css("--over")}` }, svg).textContent = "over-confident ↘";
+}
+
+// ---------- tooltip ----------
+const tip = document.getElementById("tip");
+function showTip(evt, html) {
+  const box = document.getElementById("chartbox").getBoundingClientRect();
+  tip.innerHTML = html; tip.style.display = "block";
+  let x = evt.clientX - box.left + 14, y = evt.clientY - box.top + 14;
+  if (x + 280 > box.width) x = evt.clientX - box.left - 280;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+function hover(node, html, s) {
+  node.classList.add("hit");
+  node.addEventListener("mousemove", e => showTip(e, html));
+  node.addEventListener("mouseleave", hideTip);
+  if (s) node.addEventListener("click", ev => { ev.stopPropagation(); select(s.id); });
+}
+
+// pooled reliability curve: every answer with its own confidence, in fixed groups
+function pooledGroups(all) {
+  const E = [0, 20, 40, 60, 70, 80, 85, 90, 95, 98, 100.001];
+  return E.slice(0, -1).map((lo, i) => {
+    const xs = all.filter(a => a.c >= lo && a.c < E[i + 1]);
+    return xs.length ? { n: xs.length, x: xs.reduce((t, a) => t + a.c, 0) / xs.length, acc: xs.reduce((t, a) => t + a.r, 0) / xs.length,
+                         lab: `${lo}–${Math.min(100, Math.floor(E[i + 1] - 0.001))}%` } : null;
+  }).filter(Boolean);
+}
+
+// ---------- views ----------
+function renderScatter(root) {
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Stated confidence vs. accuracy; one mark per confidence group per kind of question" }, root);
+  svg.addEventListener("click", () => { if (state.sel) select(state.sel); });
+  axes(svg);
+  const vis = visible();
+  if (state.pooled) {
+    const pb = pooledGroups(vis.flatMap(s => s.answers));
+    el("polyline", { points: pb.map(b => sx(b.x) + "," + sy(b.acc)).join(" "), fill: "none", stroke: css("--pooled"), "stroke-width": 2.5, opacity: 0.8 }, svg);
+    for (const b of pb) {
+      const r = el("rect", { x: sx(b.x) - 4, y: sy(b.acc) - 4, width: 8, height: 8, fill: css("--pooled") }, svg);
+      hover(r, `<b>All answers pooled</b><br>Confidence ${b.lab}: ${b.n} answers<br>Mean confidence ${num(b.x)}, ${pct(b.acc)} right`);
+    }
+  }
+  const draw = (s, on) => {
+    const dim = state.sel && !on;
+    const g = el("g", { opacity: dim ? 0.28 : 1 }, svg);
+    const col = on ? css("--sel") : css("--mark");
+    const withX = s.points.filter(p => p.x != null).sort((a, b) => a.x - b.x);
+    if (on && withX.length > 1 && !s.points[0].label)
+      el("polyline", { points: withX.map(p => sx(p.x) + "," + sy(p.acc)).join(" "), fill: "none", stroke: col, "stroke-width": 2 }, g);
+    for (const p of s.points) {
+      const tipHtml = `<b>${s.label}</b><br>${p.label ? "Prompt: " + p.label + "<br>" : ""}Confidence ${rng(p)}<br>${p.n} answers, ${pct(p.acc)} right${s.approx && p.x != null ? "<br>Position approximate" : ""}`;
+      if (p.x == null) {
+        const ln = el("line", { x1: sx(p.lo) + 3, x2: sx(p.hi) - 3, y1: sy(p.acc), y2: sy(p.acc), stroke: col, "stroke-width": on ? 5 : 3, "stroke-linecap": "round", opacity: on ? 0.9 : 0.45 }, g);
+        hover(ln, tipHtml, s);
+        continue;
+      }
+      const r = Math.min(15, 4.5 + Math.sqrt(p.n) * 0.9);
+      const m = shape(g, SHAPES[s.family], sx(p.x), sy(p.acc), r, {
+        fill: col, "fill-opacity": s.approx ? 0.2 : 0.62, stroke: s.approx ? col : css("--surface"), "stroke-width": 1.5,
+        "stroke-dasharray": s.approx ? "2 2" : "" });
+      hover(m, tipHtml, s);
+    }
+    if (on && withX.length) {
+      const last = withX[withX.length - 1];
+      const right = sx(last.x) < W - 230;
+      el("text", { x: sx(last.x) + (right ? 14 : -14), y: sy(last.acc) - 10, "text-anchor": right ? "start" : "end",
+        style: `font-size:13px;font-weight:700;fill:${css("--text")};paint-order:stroke;stroke:${css("--surface")};stroke-width:4px` }, g).textContent = s.label;
+    }
+  };
+  for (const s of vis) if (s.id !== state.sel) draw(s, false);
+  const s = vis.find(x => x.id === state.sel);
+  if (s) draw(s, true);
+  const npts = vis.reduce((t, s) => t + s.points.length, 0);
+  document.getElementById("legend").innerHTML = FAMILIES.filter(f => vis.some(s => s.family === f))
+    .map(f => `<span>${shapeIcon(SHAPES[f])}${f}</span>`).join("")
+    + `<span style="flex-basis:100%">Mark size = answers in the group. Faint dashed marks: confidence read from a chart. Bars: the post gives only a confidence range.${state.pooled ? " Black squares: all answers pooled." : ""}</span>`;
+  document.getElementById("note").textContent = `${npts} groups from ${vis.length} kinds of question. Groups hold at least 6 answers and are cut only where the confidence value changes. Click a mark or a name to pick a series.`;
+}
+
+function renderStrip(root) {
+  const vis = visible().map(s => ({ s, st: stats(s) })).sort((a, b) => (a.st.conf ?? 90) - (b.st.conf ?? 90));
+  const rowH = 28, top = 10, LW = 270;
+  const h = top + vis.length * rowH + 40;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${h}`, role: "img", "aria-label": "Every answer by stated confidence; dot = right, cross = wrong" }, root);
+  const x = c => LW + (c / 100) * (W - LW - 70);
+  for (let v = 0; v <= 100; v += 10) {
+    el("line", { x1: x(v), x2: x(v), y1: top, y2: top + vis.length * rowH, stroke: css("--grid") }, svg);
+    el("text", { x: x(v), y: top + vis.length * rowH + 18, "text-anchor": "middle" }, svg).textContent = v + "%";
+  }
+  el("text", { x: (x(0) + x(100)) / 2, y: h - 4, "text-anchor": "middle", style: "font-size:13px" }, svg).textContent = "Stated confidence of each answer";
+  vis.forEach(({ s, st }, i) => {
+    const y0 = top + i * rowH, cy = y0 + rowH / 2;
+    const on = state.sel === s.id, dim = state.sel && !on;
+    const g = el("g", { opacity: dim ? 0.3 : 1 }, svg);
+    if (i % 2 === 0) el("rect", { x: 0, y: y0, width: W, height: rowH, fill: css("--panel"), opacity: 0.6 }, g);
+    const lab = el("text", { x: LW - 10, y: cy + 4, "text-anchor": "end", style: `font-size:12px;${on ? "font-weight:700;fill:" + css("--text") : ""}` }, g);
+    lab.textContent = s.label;
+    hover(lab, `<b>${s.label}</b>`, s);
+    el("text", { x: W - 4, y: cy + 4, "text-anchor": "end", style: "font-size:12px" }, g).textContent = pct(st.acc) + " right";
+    if (s.answers.length) {
+      const seen = {};
+      for (const a of s.answers) {
+        const k = Math.round(a.c);
+        seen[k] = (seen[k] || 0) + 1;
+        const px = x(a.c) + ((seen[k] * 3) % 5 - 2) * 0.8, py = cy + ((seen[k] * 7) % 11 - 5) * 1.7;
+        const node = a.r === 1
+          ? el("circle", { cx: px, cy: py, r: 3.4, fill: css("--right"), "fill-opacity": 0.75 }, g)
+          : el("path", { d: `M${px - 3.4},${py - 3.4}L${px + 3.4},${py + 3.4}M${px - 3.4},${py + 3.4}L${px + 3.4},${py - 3.4}`, stroke: css("--wrong"), "stroke-width": 2 }, g);
+        hover(node, `<b>${s.label}</b><br>Confidence ${a.c}% · ${a.r === 1 ? "right" : "wrong"}`, s);
+      }
+    } else {
+      for (const p of s.points) {
+        const lo = p.x ?? p.lo, hi = p.x ?? p.hi;
+        const node = el("rect", { x: x(lo) - (p.x != null ? 4 : 0), y: cy - 5, width: Math.max(8, x(hi) - x(lo)), height: 10, rx: 4,
+          fill: css("--right"), "fill-opacity": 0.15 + 0.6 * p.acc, stroke: css("--right"), "stroke-width": 1 }, g);
+        hover(node, `<b>${s.label}</b><br>Confidence ${rng(p)}: ${p.n} answers, ${pct(p.acc)} right`, s);
+      }
+    }
+  });
+  document.getElementById("legend").innerHTML = `<span><svg width="10" height="10" style="width:10px"><circle cx="5" cy="5" r="4" fill="${css("--right")}"/></svg>right answer</span>
+    <span><svg width="10" height="10" style="width:10px"><path d="M1,1L9,9M1,9L9,1" stroke="${css("--wrong")}" stroke-width="2"/></svg>wrong answer</span>
+    <span style="flex-basis:100%">Rows sorted by mean confidence. Shaded bars: the post gives grouped results only (darker = more right).</span>`;
+  document.getElementById("note").textContent = "Look for rows where the dots and crosses sit at the same confidence. There, the number does not separate right from wrong.";
+}
+
+function renderTable(root) {
+  const rows = visible().map(s => ({ s, st: stats(s) })).sort((a, b) => (b.st.conf ?? 0) - (a.st.conf ?? 0));
+  const gap = st => st.confRight != null && st.confWrong != null ? st.confRight - st.confWrong : null;
+  root.innerHTML = `<div class="tablewrap"><table>
+    <thead><tr><th>Kind of question</th><th>Family</th><th class="n">Answers</th><th class="n">Right</th><th class="n">Mean conf.</th>
+    <th class="n">Conf. when right</th><th class="n">Conf. when wrong</th><th class="n">Gap</th></tr></thead><tbody>
+    ${rows.map(({ s, st }) => `<tr data-id="${s.id}" class="hit"><td>${s.label}</td><td>${s.family}</td>
+      <td class="n">${st.n}</td><td class="n">${pct(st.acc)}</td><td class="n">${st.conf == null ? "–" : num(st.conf) + (s.approx ? " ≈" : "")}</td>
+      <td class="n">${num(st.confRight)}</td><td class="n">${num(st.confWrong)}</td>
+      <td class="n">${gap(st) == null ? "–" : (gap(st) > 0 ? "+" : "") + num(gap(st))}</td></tr>`).join("")}
+    </tbody></table></div>`;
+  root.querySelectorAll("tr[data-id]").forEach(tr => tr.addEventListener("click", () => select(tr.dataset.id)));
+  document.getElementById("legend").innerHTML = "";
+  document.getElementById("note").textContent = "Gap = mean confidence on right answers minus mean confidence on wrong answers. A large gap means the number separates right from wrong, even when it is not calibrated.";
+}
+
+function side() {
+  const S = document.getElementById("side");
+  const s = visible().find(x => x.id === state.sel);
+  let html;
+  if (!s) html = `<h2>Pick a kind of question</h2><p class="hint">Click a mark or a name below. The chart then shows that series in color and the details appear here.</p>`;
+  else {
+    const st = stats(s);
+    html = `<h2>${s.label}</h2>
+      <dl><dt>Answers</dt><dd>${st.n}</dd><dt>Right</dt><dd>${pct(st.acc)}</dd>
+      <dt>Mean confidence</dt><dd>${st.conf == null ? "not given" : num(st.conf) + (s.approx ? " (approx.)" : "")}</dd>
+      ${st.confRight != null && st.confWrong != null ? `<dt>When right</dt><dd>${num(st.confRight)}</dd><dt>When wrong</dt><dd>${num(st.confWrong)}</dd>` : ""}</dl>
+      <p><b>Task.</b> ${s.task}</p><p><b>Confidence meant.</b> ${s.conf_meaning}</p><p><b>Right meant.</b> ${s.right_meaning}</p>
+      <p><b>Note.</b> ${s.note}</p>`;
+  }
+  for (const f of FAMILIES) {
+    const ss = visible().filter(x => x.family === f);
+    if (!ss.length) continue;
+    html += `<div class="fam"><h3>${shapeIcon(SHAPES[f])}${f}</h3><div class="list">${ss.map(x =>
+      `<button data-id="${x.id}" class="${x.id === state.sel ? "on" : ""}">${x.label}</button>`).join("")}</div></div>`;
+  }
+  S.innerHTML = html;
+  S.querySelectorAll(".list button").forEach(b => b.addEventListener("click", () => select(b.dataset.id)));
+}
+
+function select(id) { state.sel = state.sel === id ? null : id; render(); }
+
+function render() {
+  const root = document.getElementById("chart");
+  root.innerHTML = ""; hideTip();
+  if (state.sel && !visible().some(s => s.id === state.sel)) state.sel = null;
+  ({ scatter: renderScatter, strip: renderStrip, table: renderTable })[state.view](root);
+  side();
+}
+
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+  state.view = b.dataset.view;
+  document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  render();
+}));
+document.getElementById("private").addEventListener("change", e => { state.priv = e.target.checked; render(); });
+document.getElementById("pooled").addEventListener("change", e => { state.pooled = e.target.checked; render(); });
+document.getElementById("privn").textContent = SERIES.filter(s => !s.share).length;
+if (!SERIES.some(s => !s.share)) document.getElementById("private").parentElement.hidden = true;
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>
