@@ -357,7 +357,7 @@ document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click
 document.getElementById("private").addEventListener("change", e => { state.priv = e.target.checked; render(); });
 document.getElementById("pooled").addEventListener("change", e => { state.pooled = e.target.checked; render(); });
 document.getElementById("privn").textContent = SERIES.filter(s => !s.share).length;
-if (!SERIES.some(s => !s.share)) document.getElementById("private").parentElement.hidden = true;
+if (!SERIES.some(s => !s.share)) document.getElementById("private").parentElement.style.display = "none";
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
 render();
 </script>
