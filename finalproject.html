@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Project, Trustworthy AI, Fall 2026</title>
+    <meta name="keywords" content="robert pless, trustworthy AI course notes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #35424a;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            color: #35424a;
+            border-bottom: 2px solid #35424a;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .container h3 {
+            color: #35424a;
+            margin-bottom: 8px;
+        }
+
+        .container section {
+            margin-bottom: 30px;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+        }
+
+        .container ol, .container ul {
+            padding-left: 20px;
+        }
+
+        .container li {
+            margin-bottom: 10px;
+        }
+
+        .container a {
+            color: #35424a;
+        }
+
+        .target, .idea {
+            border-left: 4px solid #35424a;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        .idea summary {
+            cursor: pointer;
+        }
+
+        .idea summary h3 {
+            display: inline;
+        }
+
+        .idea .question {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .idea[open] summary {
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Final Project: Write a Research Paper</h1>
+        <p>Trustworthy AI, Fall 2026 &mdash; CSCI 6510 / EMSE 6992</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <p><strong>Dates:</strong></p>
+            <ul>
+                <li><strong>Monday, November 23, 2026, 12:00 noon:</strong> your plan is due. We grade the plan as Assignment 4.</li>
+                <li><strong>Tuesday, December 8, 2026, 12:00 noon:</strong> your paper is due.</li>
+                <li><strong>By Thursday, December 10, 2026:</strong> we return your graded paper and your course grade.</li>
+                <li><strong>Wednesday, December 16, 2026, 12:00 noon:</strong> the last time to resubmit your paper for a higher grade. This step is optional.</li>
+            </ul>
+
+            <p>For the final project, you write a research paper about trustworthy AI. You can continue your work from Assignment 1, 2, or 3,
+                or you can start a new topic. If you need a topic, see the <a href="#ideas">project ideas</a> at the end of this page.</p>
+
+            <p>Your paper needs a target. A target is a real conference, workshop, or symposium that takes papers.
+                Pick one of the five targets on this page. Then write the kind of paper that your target takes.</p>
+
+            <p>You do not have to send your paper to the target, but we encourage it. Most of the targets have deadlines in January or February.
+                You can use our notes from December 10 to improve the paper first.</p>
+        </section>
+
+        <section>
+            <h2>Groups</h2>
+            <p>Work alone or in a group of up to 3 students. A group submits one plan and one paper.</p>
+            <p>Join the <a href="https://join.slack.com/t/trustworthyai2026/shared_invite/zt-4gjo7wcmo-hr7d8CmkWHO0rNDYXDAWNg">class Slack workspace</a>
+                to find group members and to ask questions about the project.</p>
+        </section>
+
+        <section>
+            <h2>Pick a target</h2>
+            <p>Each target has a call for papers. The call is a web page with the rules and the dates.
+                For each target below, the first line tells you what kind of paper fits.</p>
+
+            <div class="target" id="aaai">
+                <h3><a href="https://aaai.org/conference/spring-symposia/aaai-2027-spring-symposium-series/">AAAI 2027 Spring Symposia</a></h3>
+                <p><strong>Pick this target if</strong> your paper gives early results or argues for an idea.</p>
+                <ul>
+                    <li><strong>What it is:</strong> AAAI plans about eight small symposia for 2027. Each symposium has one topic and 40 to 75 people.
+                        The symposia welcome work in progress and give much time to discussion.</li>
+                    <li><strong>What you send:</strong> in 2026, most symposia took full papers of 6 to 8 pages.
+                        Most also took shorter papers or abstracts of 1 to 4 pages.</li>
+                    <li><strong>Dates:</strong> AAAI selects the topics by December 8. Then each symposium sets its own paper deadline.
+                        In 2026, the deadlines were from January 9 to February 27.
+                        The symposia are on March 22&ndash;24, 2027, at Santa Clara University in California.</li>
+                    <li><strong>Note:</strong> you write your paper before you know the topics. If no topic fits your paper, pick a different target.
+                        See the <a href="https://aaai.org/conference/spring-symposia/sss26/">2026 topics</a> for examples. Each presenter must attend in person.</li>
+                </ul>
+            </div>
+
+            <div class="target" id="chi">
+                <h3><a href="https://chi2027.acm.org/authors/posters/">CHI 2027 Posters</a></h3>
+                <p><strong>Pick this target if</strong> your paper is a study of how people use an AI tool.</p>
+                <ul>
+                    <li><strong>What it is:</strong> CHI is the main conference on human-computer interaction.
+                        The Posters track takes short studies, case studies, and new ideas.
+                        This track now includes the work that CHI called Late-Breaking Work until 2025.</li>
+                    <li><strong>What you send:</strong> up to 4 pages in the ACM single-column template, plus references.
+                        Do not put author names on the paper that you send.</li>
+                    <li><strong>Dates:</strong> the paper deadline is January 21, 2027. CHI is on May 10&ndash;14, 2027, in Pittsburgh.</li>
+                    <li><strong>Note:</strong> if CHI accepts your paper, one author must register and present a poster.
+                        A recorded video is possible if you cannot travel.</li>
+                </ul>
+            </div>
+
+            <div class="target" id="iclr-workshops">
+                <h3><a href="https://iclr.cc/Conferences/2027">ICLR 2027 workshops</a></h3>
+                <p><strong>Pick this target if</strong> your paper has experiments on a model or an agent. Examples are tests of calibration or robustness.</p>
+                <ul>
+                    <li><strong>What it is:</strong> ICLR is a top conference on machine learning. Each workshop is a one-day event on one topic.
+                        A workshop paper can show early results.</li>
+                    <li><strong>What you send:</strong> each workshop sets its own page limit. ICLR also encourages each workshop to take short papers.</li>
+                    <li><strong>Dates:</strong> ICLR selects the workshops by November 29. Then each workshop sets its own paper deadline.
+                        ICLR suggests February 1, 2027. The workshops are on April 29&ndash;30, 2027, in San Francisco.</li>
+                    <li><strong>Note:</strong> pick the specific workshop when the list is available.
+                        In 2026, some <a href="https://iclr.cc/virtual/2026/events/workshop">workshops</a> were about trustworthy AI and about the safety of agents.</li>
+                </ul>
+            </div>
+
+            <div class="target" id="iclr-blog">
+                <h3><a href="https://iclr.cc/Conferences/2027/CallForBlogPosts">ICLR 2027 Blogpost Track</a></h3>
+                <p><strong>Pick this target only if</strong> you can finish a polished blog post about recent machine learning research by December 1.</p>
+                <ul>
+                    <li><strong>What it is:</strong> this track publishes blog posts about recent research from top conferences in machine learning and AI.
+                        A post can explain a paper, show its limits, or discuss its effect on society.</li>
+                    <li><strong>What you send:</strong> a web post in Markdown, not an article. People must write the text.
+                        The track can reject a post if an AI wrote the text.</li>
+                    <li><strong>Dates:</strong> the deadline is December 1, 2026. This is one week before the class deadline for the paper.</li>
+                    <li><strong>Note:</strong> for the class, submit the URL of your post by December 8.</li>
+                </ul>
+            </div>
+
+            <div class="target" id="ijcai">
+                <h3><a href="https://2027.ijcai.org/">IJCAI 2027, AI for Social Good track</a></h3>
+                <p><strong>Pick this target if</strong> your project uses AI on a real social problem, with partners who know that problem.</p>
+                <ul>
+                    <li><strong>What it is:</strong> IJCAI is a large international conference on AI.
+                        This track wants AI research on problems such as health, education, and the environment.
+                        In 2026, the reviewers scored the science, the effect on the real problem, and the work with partners.</li>
+                    <li><strong>What you send:</strong> a full paper of up to 7 pages, plus up to 2 pages of references.
+                        Do not put author names on the paper that you send.</li>
+                    <li><strong>Dates:</strong> the abstract is due January 4, 2027. The full paper is due January 11, 2027.
+                        IJCAI is on August 7&ndash;13, 2027, in Kyoto, Japan.</li>
+                    <li><strong>Note:</strong> this is the hardest target on the list. It needs a complete study, and one author must present in person.
+                        IJCAI did not post the 2027 call for this track yet.
+                        Read the <a href="https://2026.ijcai.org/ijcai-ecai-2026-call-for-papers-ai4good/">2026 call</a> to learn what the track wants.</li>
+                </ul>
+            </div>
+
+            <p>Read the call of your target before you send a paper. Check the rules for travel, cost, and AI use.
+                We checked the dates on this page on November 9, 2026. Dates can change.</p>
+        </section>
+
+        <section>
+            <h2>Step 1: The plan, due November 23 (Assignment 4)</h2>
+            <p>Submit a plan for your paper. The plan is one or two pages. Include these items:</p>
+            <ol>
+                <li><strong>The group.</strong> Give the names of all group members.</li>
+                <li><strong>The target.</strong> Name your target. Say in one or two sentences why your paper fits it.</li>
+                <li><strong>The question.</strong> Give the main question of your paper in one or two sentences.</li>
+                <li><strong>The evidence.</strong> Say what you have now and what you will add before December 8.</li>
+                <li><strong>The outline.</strong> Give the title of each section and one or two sentences about its content.</li>
+            </ol>
+            <p>AAAI and ICLR did not select their symposia and workshops yet. For these two targets, name only the target in your plan.</p>
+        </section>
+
+        <section>
+            <h2>Step 2: The paper, due December 8</h2>
+            <ul>
+                <li><strong>Format:</strong> write the paper in the IJCAI format. This is the format of the IJCAI AI for Social Good track.
+                    All groups use this format for the class.</li>
+                <li><strong>Template:</strong> download the template from the <a href="https://www.ijcai.org/authors_kit">IJCAI Author's Kit</a> page.
+                    The kit has LaTeX style files and a Word template.</li>
+                <li><strong>Length:</strong> up to 7 pages, plus up to 2 pages of references. This is the IJCAI limit.</li>
+                <li><strong>Names:</strong> put the names of all group members on the first page.</li>
+                <li><strong>Exception:</strong> for the ICLR Blogpost Track, submit the URL of your post.</li>
+            </ul>
+            <p>If you send your paper to a different target later, move your text into the template of that target.</p>
+        </section>
+
+        <section>
+            <h2>Step 3: Resubmit by December 16 (optional)</h2>
+            <p>We return your graded paper with notes by Thursday, December 10. You also get your course grade on that date.</p>
+            <p>To get a higher grade, improve your paper and resubmit it by Wednesday, December 16, 12:00 noon.
+                If you do not resubmit, your course grade stays the same.</p>
+        </section>
+
+        <section>
+            <h2>How to submit</h2>
+            <p>Use the same form as for the earlier assignments: <a href="https://docs.google.com/forms/d/e/1FAIpQLSe618dz2Gra56t_vh2tfS-BO7BeRPLTy9lsIgXyzFqn2KqV9A/viewform">submission form</a>.</p>
+            <ul>
+                <li>Submit each item as a PDF. Use the PDF upload field of the form.</li>
+                <li>One exception: for the ICLR Blogpost Track, put the URL of your post in the URL field of the form.</li>
+                <li>For the plan, select Assignment 4 in the form.</li>
+                <li>For a group, one person submits. Put the names of the other members in the form.</li>
+            </ul>
+        </section>
+
+        <section id="ideas">
+            <h2>Project ideas</h2>
+            <p>Here are seven possible projects. Select an idea to see its plan.</p>
+            <p>Each plan has a five-sentence version. It shows how the abstract of your paper can read when the work is complete.</p>
+            <p>Each plan also says what makes the paper new, and it names papers to read first. Your paper must say how it differs from them.
+                The lists are short, so search for newer work before you start.</p>
+            <p>Two habits make each of these projects stronger. Before any run, write your predictions and the rules for your scores in the plan (Step 1).
+                Then ask a second person to score a sample of the answers, and report how often you agree.</p>
+            <p>Some ideas name a target that is not in the list of five.
+                These targets are ACL 2027 (language technology), AIES 2027 (AI, ethics, and society), and ICWSM 2027 (web and social media).
+                For these ideas, you can use that target.</p>
+
+            <details class="idea">
+                <summary><h3>1. Every fix has a cost: side effects of prompt rules</h3>
+                    <span class="question"><strong>Question:</strong> When you add a rule to an AI agent's prompt to stop one mistake, how often does the rule cause a new mistake?</span></summary>
+                <p><strong>Five-sentence version:</strong> A common way to fix a mistake of an AI agent is to add a rule to its prompt.
+                    We took four tasks from this course where a rule already fixed a known mistake, such as a train route and a campground reservation.
+                    For each rule, we wrote target cases, where the rule must apply, and mirror cases, which look the same but need the opposite answer.
+                    We ran each case with no rule and with three forms of the rule: strict, limited, and with a reason.
+                    We report two rates for each form: how often it fixes the target mistake, and how often it causes an error on a mirror case.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Use four tasks that already have a rule from Assignment 2. For each task, write four target cases and four mirror cases, with the right answers.</li>
+                    <li><strong>Mirror cases:</strong> A mirror case looks like a target case, but the rule gives the wrong answer there.
+                        Example: the rule says that a page that will not load is not evidence that a document does not exist.
+                        The mirror case is a document that really does not exist.</li>
+                    <li><strong>Rule forms:</strong> Write each rule in three forms.
+                        <ul>
+                            <li>Strict: "Never say that a document does not exist."</li>
+                            <li>Limited: "If a page will not load, do not say that the document does not exist."</li>
+                            <li>With a reason: the limited form, plus why the rule exists.</li>
+                        </ul></li>
+                    <li><strong>Runs:</strong> 4 tasks, 8 cases each, no rule and 3 rule forms, 2 runs each: 256 runs.</li>
+                    <li><strong>Score:</strong> On target cases, count the mistakes that the rule fixed. On mirror cases, count the new errors.
+                        Examples are too much caution, a refusal of a true fact, and a wrong detail that looks checked.</li>
+                    <li><strong>Main result:</strong> A chart with one point for each rule form. One axis shows the share of target mistakes that the rule fixed.
+                        The other axis shows the share of mirror cases with a new error.</li>
+                    <li><strong>First step:</strong> Take one rule from Assignment 2. Write two mirror cases for it, and run them with and without the rule.</li>
+                    <li><strong>What makes it new:</strong> Most studies count how often an agent obeys a rule, or what a rule file costs.
+                        This study measures where a rule applies by mistake, and how the words of the rule change that.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2602.11988">Evaluating AGENTS.md</a>,
+                        <a href="https://arxiv.org/abs/2502.12197">A Closer Look at System Prompt Robustness</a>,
+                        and <a href="https://arxiv.org/abs/2308.01263">XSTest</a>, which uses a similar method for safety behavior.</li>
+                    <li><strong>Good fit:</strong> an <a href="#iclr-workshops">ICLR 2027 workshop</a> on agents, or an <a href="#aaai">AAAI Spring Symposium</a>.</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>2. The quiet guess: requests with two meanings</h3>
+                    <span class="question"><strong>Question:</strong> When a request can mean two things, how often does an AI agent ask, state its choice, or pick one meaning in silence?</span></summary>
+                <p><strong>Five-sentence version:</strong> Many requests to AI agents can mean two different things, and the agent must pick one.
+                    We wrote 40 such requests of four types, plus a clear version of each request as a control.
+                    We asked ChatGPT and Claude each request, and marked each answer as asked, stated its choice, or silent choice.
+                    Readers with one meaning in mind then judged the answers, and we counted how often they caught an answer for the other meaning.
+                    Last, we added one rule, "list the meanings first," and measured the drop in silent choices and the rise in needless questions.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Write 10 requests of each type: a word with two senses, an unstated condition, no unit, and no time or place.
+                        For each request, write both meanings, both right answers, and a clear version with only one meaning.
+                        Use real documents where you can, such as a job ad or a budget sheet.</li>
+                    <li><strong>Runs:</strong> 80 requests, 2 tools, without and with the rule: 320 answers.</li>
+                    <li><strong>Score:</strong> Mark each answer as "asked," "stated its choice," or "silent choice."
+                        Then mark if the answer is right for the meaning that it chose. On the clear requests, count the needless questions.</li>
+                    <li><strong>Reader test:</strong> Give 10 readers 20 answers each: 10 with a silent choice and 10 with a stated choice.
+                        Tell the reader which meaning to have in mind. For half of the answers, give the meaning that the tool did not pick.
+                        Count how often the reader sees that the answer does not fit.</li>
+                    <li><strong>Main result:</strong> A table of asked, stated, and silent choices for each type, before and after the rule.
+                        A second table shows how often readers caught an answer that did not fit, for silent and for stated choices.</li>
+                    <li><strong>First step:</strong> Collect five real unclear requests from your earlier assignments.</li>
+                    <li><strong>What makes it new:</strong> Most benchmarks score "ask" against "assume."
+                        This study scores the stated choice as a third result, and it tests if a stated choice helps the reader.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2502.13069">Ambig-SWE</a>,
+                        <a href="https://arxiv.org/abs/2602.10525">LHAW</a>,
+                        and <a href="https://neurips.cc/virtual/2026/166922">Ask Precisely, Assume Wisely</a>.</li>
+                    <li><strong>Good fit:</strong> <a href="#chi">CHI 2027 Posters</a>, or <a href="https://2027.aclweb.org/">ACL 2027</a> (language technology, papers due January 4).</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>3. Said and done: what agents report and what they really change</h3>
+                    <span class="question"><strong>Question:</strong> When an AI agent edits files, how often does its final report match the real change?</span></summary>
+                <p><strong>Five-sentence version:</strong> AI agents now edit files for people, and they end each task with a report of what they changed.
+                    We built 30 small office tasks with a known result, such as an update to a project tracker from an email.
+                    Ten of the tasks are blocked: for example, the instruction names a row that does not exist.
+                    We ran two agents three times on each task, and a short script compared each claimed change with the real file.
+                    We count changes that the agent claimed but did not make, and changes that it made but did not report, for clear and blocked tasks.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Make 30 tasks: 20 clear tasks and 10 blocked tasks. For each task, save the start file, the instruction, and the correct end file.</li>
+                    <li><strong>Blocked tasks:</strong> A blocked task has no full solution. For example, the instruction names a row that does not exist.
+                        A good report says what the agent could not do.</li>
+                    <li><strong>Small errors:</strong> In some start files, put a small error near the target, such as a typo. Do not ask the agent to fix it.
+                        Then you can see changes that nobody asked for.</li>
+                    <li><strong>Tools:</strong> Use two agents that can edit files, such as Codex and Claude Code. Use copies of files, never real data.</li>
+                    <li><strong>Runs:</strong> 30 tasks, 2 agents, 3 runs each: 180 runs.</li>
+                    <li><strong>Check:</strong> Write a small script that compares the end file with the start file and with the correct file, cell by cell.
+                        List the claims in each report by hand.</li>
+                    <li><strong>Score:</strong> Report two rates. The first rate is the share of claimed changes that are really in the file.
+                        The second rate is the share of real changes that the report names.</li>
+                    <li><strong>Main result:</strong> A table of the two rates for each agent, for clear tasks and for blocked tasks.</li>
+                    <li><strong>First step:</strong> Make two clear tasks and one blocked task, and run each one once on each agent.</li>
+                    <li><strong>What makes it new:</strong> Studies from 2026 count false claims of success.
+                        This study also counts the reverse: changes that the agent made but did not report.
+                        It uses office files, where no test checks the work.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2606.09863">From Confident Closing to Silent Failure</a>
+                        and <a href="https://arxiv.org/abs/2609.20812">Quantifying Overclaiming Propensity in Frontier LLM Agents</a>.</li>
+                    <li><strong>Good fit:</strong> an <a href="#iclr-workshops">ICLR 2027 workshop</a> on agents.</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>4. Stale but sure: facts that changed this year</h3>
+                    <span class="question"><strong>Question:</strong> For facts that changed in 2026, how often do AI tools give the old fact, and does web search fix it?</span></summary>
+                <p><strong>Five-sentence version:</strong> Many facts change, but AI tools learn from older text.
+                    We collected 60 facts that changed in 2026, such as a race that moved to a new city, each with an official source and date.
+                    We asked three AI tools about each fact with web search off and on, plus 20 facts that did not change.
+                    For each old answer with search on, we found the cause: no search, only old pages found, or the new fact found but not used.
+                    We show how the share of old answers falls with the weeks since the change, and which areas stay wrong the longest.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Find 15 changed facts in each of four areas: travel, law and policy, sports and events, and local businesses or services.
+                        Record the date of each change and the source. Also pick 20 facts of the same kinds that did not change.</li>
+                    <li><strong>Question form:</strong> Ask for the current value. Do not hint that it changed.</li>
+                    <li><strong>Runs:</strong> 80 facts, 3 tools, search off and on: 480 answers.</li>
+                    <li><strong>Cause:</strong> With search on, save the pages that each tool cites.
+                        Give each old answer one of three causes: no search, only old pages found, or the new fact found but not used.</li>
+                    <li><strong>Main result:</strong> A chart of the share of old answers against the weeks since the change, for each area.
+                        A table of the three causes for each tool.</li>
+                    <li><strong>First step:</strong> Find 10 changed facts in your own field, and check that each has an official date.</li>
+                    <li><strong>What makes it new:</strong> Most benchmarks test models and retrieval systems in a lab.
+                        This study tests the chat tools that people use, with live web search. It also finds the step where the old answer comes from.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2503.04800">HoH</a>,
+                        <a href="https://zenodo.org/records/20697152">StaleBench</a>,
+                        and <a href="https://arxiv.org/abs/2511.01409">LiveSearchBench</a>.</li>
+                    <li><strong>Good fit:</strong> <a href="#ijcai">IJCAI 2027</a> (AI for Social Good track), or an <a href="#iclr-workshops">ICLR 2027 workshop</a>.
+                        For IJCAI, work with a partner who knows local services, such as a library or a city office.</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>5. Asked about the unwritten: answers that are not online</h3>
+                    <span class="question"><strong>Question:</strong> When the true answer is not on the internet, do AI tools say "I do not know," or do they guess with confidence?</span></summary>
+                <p><strong>Five-sentence version:</strong> Some facts that matter to people are not on the internet, such as how a town pays for transport during a cash shortage.
+                    We wrote 30 questions whose answers we know but no website gives, each with a matched question whose answer is online.
+                    We asked three AI tools each question two times with web search on, and a second person checked our answer key.
+                    We measure how often the tools say "I do not know," how often they guess, and if the pages that they cite support the guess.
+                    The gap shows a risk for places with little online coverage, where a confident guess can look like a fact.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Write 30 questions that only people in your community or workplace can answer.
+                        Match each one with a question about the same place and the same kind of fact. The answer to the matched question must be online.
+                        Also write 10 questions about events that never happened, as a trap.</li>
+                    <li><strong>Proof:</strong> Show that each offline answer is not online. Search the web with a fixed list of queries, and save the queries and the date.
+                        Remove a question if you find its answer.</li>
+                    <li><strong>Check:</strong> Ask a second person who knows the topic to confirm each answer. Do not include private facts about any person.</li>
+                    <li><strong>Runs:</strong> 70 questions, 3 tools, 2 runs: 420 answers.</li>
+                    <li><strong>Score:</strong> Mark each answer as right, "I do not know," or wrong.
+                        For each wrong answer, mark if the tool cites pages, and if those pages support the answer.</li>
+                    <li><strong>Main result:</strong> A table of right answers, "I do not know" answers, and confident wrong answers, for each kind of question.
+                        Show the wrong answers with and without cited pages.</li>
+                    <li><strong>Release:</strong> Do not publish the offline answers. A published answer is online, and then the test does not work.
+                        Publish the method and the online questions.</li>
+                    <li><strong>First step:</strong> Write five offline questions and five matched online questions, and test them once.</li>
+                    <li><strong>What makes it new:</strong> Benchmarks for local knowledge take their answers from online sources.
+                        In this study, the two questions of a pair differ in one thing only: the answer is online or it is not.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2511.10459">LocalBench</a>
+                        and <a href="https://arxiv.org/abs/2506.09038">AbstentionBench</a>.</li>
+                    <li><strong>Good fit:</strong> <a href="https://www.aies-conference.com/">AIES 2027</a> (papers due about May), or <a href="#ijcai">IJCAI 2027</a> (AI for Social Good track).
+                        A community partner that can run the test again makes the paper stronger.</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>6. Tell it what you think: how a stated belief moves answers</h3>
+                    <span class="question"><strong>Question:</strong> If a user states a belief first, does the answer of the AI tool move toward the belief, even when the belief is wrong?</span></summary>
+                <p><strong>Five-sentence version:</strong> AI tools may agree with what a user already believes, even when the belief is wrong.
+                    We wrote 40 questions in our own fields, each with a wrong belief that people in the field really hold and an unlikely wrong belief.
+                    We asked two AI tools the plain question and both belief forms in new chats, with web search off and on.
+                    After each right answer we challenged the tool once, and we recorded if it searched the web before its reply.
+                    We measure how much each kind of wrong belief lowers accuracy, and if web search helps a tool to hold a right answer.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Write 40 questions with known answers. For each question, find a wrong belief that people in your field really hold, with a source that shows it.
+                        Also write an unlikely wrong belief. Then write three forms of the question: plain, with the common wrong belief, and with the unlikely wrong belief.</li>
+                    <li><strong>Challenge:</strong> After each right answer, write "I read the opposite." Then record the new answer, and record if the tool ran a search.</li>
+                    <li><strong>Runs:</strong> 40 questions, 3 forms, 2 tools, search off and on: 480 answers, plus the challenges.</li>
+                    <li><strong>Main result:</strong> A table of accuracy for the three forms, with search off and on.
+                        A second table shows the share of right answers that changed after one challenge.</li>
+                    <li><strong>First step:</strong> Write 10 questions in the three forms, and run them on one tool.</li>
+                    <li><strong>What makes it new:</strong> Many papers show that a stated belief moves the answer.
+                        This study adds two factors: web search, and how common the wrong belief is in a real field.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2508.02087">When Truth Is Overridden</a>
+                        and <a href="https://arxiv.org/abs/2609.09090">SPINE</a>.</li>
+                    <li><strong>Good fit:</strong> <a href="#chi">CHI 2027 Posters</a>, or an <a href="#iclr-workshops">ICLR 2027 workshop</a>.</li>
+                </ul>
+            </details>
+
+            <details class="idea">
+                <summary><h3>7. Where was this taken? Location guesses from everyday photos</h3>
+                    <span class="question"><strong>Question:</strong> How close can AI tools place everyday photos, and which simple edits stop them?</span></summary>
+                <p><strong>Five-sentence version:</strong> AI tools can guess where someone took a photo, which is a privacy risk for people who share photos online.
+                    We used 100 of our own photos with known locations, and removed the location data from each file before each test.
+                    We asked three AI tools for the location of single photos, and of sets of 3, 5, and 10 photos from one neighborhood.
+                    We repeated the test after simple edits that blur text or crop the background, and rated how well each edited photo still showed its subject.
+                    We measure how often each tool puts the camera within 100 meters, 1 kilometer, and 25 kilometers, and how sets and edits change these rates.</p>
+                <ul>
+                    <li><strong>Test set:</strong> Pick 25 of your own photos of each of four types: famous places, streets with signs, plain streets or parks, and rooms.</li>
+                    <li><strong>Sets:</strong> Also make 6 sets of 10 photos. All photos of a set are from one neighborhood, and none shows a famous place.
+                        Ask each tool for the neighborhood with 1, 3, 5, and 10 photos of the set.</li>
+                    <li><strong>Edits:</strong> For each photo that a tool placed within 1 kilometer, make three edited copies: text blurred, background cropped, and both.
+                        Rate each copy from 1 to 5 for how well it still shows its subject.</li>
+                    <li><strong>Check:</strong> Use the location data in the original file as the true answer, and compute the distance for each guess.
+                        For a set, use the center of its photo locations.</li>
+                    <li><strong>Main result:</strong> A chart of the share of photos within each distance, by type of photo and by edit.
+                        A second chart shows how the distance error falls when the set grows.</li>
+                    <li><strong>First step:</strong> Test 10 photos on one tool to check the prompt and the distance script.</li>
+                    <li><strong>Ethics:</strong> Use only your own photos, or images not used to train models (CC0 imagery). Do not publish the location of any home.
+                        Make the center of each set a public place.</li>
+                    <li><strong>What makes it new:</strong> Most studies test one photo at a time. This study tests sets of photos from one person.
+                        It also tests the simple edits that a phone user can make, and what each edit costs.</li>
+                    <li><strong>Read first:</strong> <a href="https://arxiv.org/abs/2504.19373">Doxing via the Lens</a>
+                        and <a href="https://arxiv.org/abs/2511.22441">GEO-Detective</a>.</li>
+                    <li><strong>Good fit:</strong> <a href="https://www.icwsm.org/2027/submit/">ICWSM 2027</a> (papers due January 15), or <a href="https://www.aies-conference.com/">AIES 2027</a> (papers due about May).</li>
+                </ul>
+            </details>
+        </section>
+
+        <p><a href="index.html">&larr; Back to the course page</a></p>
+    </div>
+
+    <footer>
+        &copy; 2026 Trustworthy AI Course. All rights reserved.
+    </footer>
+
+</body>
+</html>
